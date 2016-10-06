@@ -11,11 +11,11 @@
         $printLoginPage = True;
         $userName = '';
 
-        if( !isset($_COOKIE["userName"]) && !isset($_GET["userName"]) ){
+        if( !isset($_COOKIE["userName"]) && !isset($_POST["userName"]) ){
           // this is the first time that the user logs in to the web page
           $printLoginPage = True;
         }
-        elseif( !isset($_COOKIE["userName"]) && isset($_GET["userName"]) ){
+        elseif( !isset($_COOKIE["userName"]) && isset($_POST["userName"]) ){
           // this is when user submits the user name and password to log in
           print 'wtf?';
 
@@ -24,15 +24,15 @@
           mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
           // made the query
-          $query = "select * from users where userName="."'".$_GET["userName"]."'";
+          $query = "select * from users where userName="."'".$_POST["userName"]."'";
           $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
           $row = mysqli_fetch_array($result);
 
-          if(array_key_exists("password", $row)&&($row["password"]===$_GET["password"])){
+          if(array_key_exists("password", $row)&&($row["password"]===$_POST["password"])){
             // login succeed
             setcookie("userName", $row["userName"], time()+3600);
             $printLoginPage = False;
-            $userName = $_GET["userName"]; 
+            $userName = $_POST["userName"]; 
           }
           else{
             // login fails
@@ -48,16 +48,16 @@
 
 
         if($printLoginPage == True){
-          print '<form class="loginForm">';
+          print '<form class="loginForm" action="login.php" method="post">';
           print '<fieldset>';
           print '<legend>User Name</legend>';
-          print '<input type="text" id="loginUserName">';
+          print '<input type="text" name="userName">';
           print '</fieldset>';
           print '<fieldset>';
           print '<legend>Password</legend>';
-          print '<input type="text" id="loginPassword">';
+          print '<input type="text" name="password">';
           print '</fieldset>';
-          print '<button onclick="login()">Log In</button>';
+          print '<input type="submit" value="Log In">';
           print '</form>';
         }
         else{
