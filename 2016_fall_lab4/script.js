@@ -1,3 +1,22 @@
+function start(){
+  var xmlhttp;
+  if (window.XMLHttpRequest) {
+    xmlhttp = new XMLHttpRequest();
+  } else {
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      a=document.getElementById("content");
+      a.innerHTML=xmlhttp.responseText;
+    }
+  }
+
+  xmlhttp.open("GET", "handleLogin.php", true);
+  xmlhttp.send();     
+}
+
 function login(){
   var xmlhttp;
   if (window.XMLHttpRequest) {
@@ -16,12 +35,7 @@ function login(){
   userName = document.getElementById("loginUserName").value;
   password = document.getElementById("loginPassword").value;
 
-  alert(userName);
-  alert(password);
-  alert("login.php?userName="+userName+"&password="+password);
-
-
-  xmlhttp.open("GET", "login.php?userName="+userName+"&password="+password, true);
+  xmlhttp.open("GET", "handleLogin.php?userName="+userName+"&password="+password, true);
   xmlhttp.send();     
 }
 
