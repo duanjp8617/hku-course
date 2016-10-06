@@ -1,0 +1,84 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-size: 10pt;
+}
+
+h3{
+	font: 18px arial;
+	font-weight: bold;
+	color: #757575;
+	text-align: center;
+}
+
+form.loginForm fieldset {
+	margin-right: auto;
+	margin-left: auto;
+	display: block;
+	border-width: 0px;
+	width: 50%;
+}
+
+form.loginForm fieldset input[type="text"] {
+	height: 38px;
+	font: 17px arial;
+	border: 1px solid #d9d9d9;
+	width: 100%;
+}
+
+form.loginForm fieldset legend {
+	font: 18px arial;
+	font-weight: bold;
+	color: #757575;
+}
+
+form.loginForm button {
+	background: #f8f8f8;
+	border: 1px solid #c6c6c6;
+	height: 36px;
+	font-family: arial;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+}
+
+form.userProfileForm fieldset {
+	margin-right: auto;
+	margin-left: auto;
+	display: block;
+	border-width: 0px;
+	width: 50%;
+}
+
+form.userProfileForm fieldset input[type="text"] {
+	height: 38px;
+	font: 17px arial;
+	border: 1px solid #d9d9d9;
+	width: 100%;
+}
+
+form.userProfileForm fieldset legend {
+	font: 18px arial;
+	font-weight: bold;
+	color: #757575;
+}
+
+button {
+	background: #f8f8f8;
+	border: 1px solid #c6c6c6;
+	height: 36px;
+	font-family: arial;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	display: block;
+	margin-left: 25%;
+	margin-top: 10px;
+}
+
+div#id{
+	margin-top:10%;
+}
