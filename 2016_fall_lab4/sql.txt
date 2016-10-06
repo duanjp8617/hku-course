@@ -1,0 +1,41 @@
+CREATE TABLE users (
+	userName varchar(20) NOT NULL,
+	password varchar(20) NOT NULL,
+	PRIMARY KEY (userName)
+)
+
+INSERT INTO users(userName, password)
+VALUES (
+'Harry',
+'12345'
+);
+
+INSERT INTO users(userName, password)
+VALUES (
+'Barry',
+'23456'
+);
+
+CREATE TABLE profiles (
+	userName varchar(20) NOT NULL,
+    nickName varchar(20) NOT NULL,
+    gender varchar(1) NOT NULL,
+    briefIntro longtext,
+    PRIMARY KEY (userName)
+)
+
+INSERT INTO profiles(userName, nickName, gender, briefIntro)
+VALUES (
+'Harry',
+'Rock Star',
+'M',
+'Hello there!'
+);
+
+INSERT INTO profiles(userName, nickName, gender, briefIntro)
+VALUES (
+'Barry',
+'Chosen 2',
+'M',
+'Hello there!'
+);
