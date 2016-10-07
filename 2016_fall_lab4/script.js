@@ -40,8 +40,6 @@ function login(){
 }
 
 function updateProfile(){
-  divElem=document.getElementById("userNameIdentifier");
-  userName = divElem.getAttribute("name");
 
   nickNameElem = document.getElementById("nickNameInputBox");
   nickName = nickNameElem.value;
@@ -69,7 +67,7 @@ function updateProfile(){
     }
   }
 
-  xmlhttp.open("GET","handleUpdate.php?userName="+userName+"&nickName="+nickName+"&gender="+gender+"&briefIntro="+briefIntro,true);
+  xmlhttp.open("GET","handleUpdate.php?nickName="+nickName+"&gender="+gender+"&briefIntro="+briefIntro,true);
   xmlhttp.send();  
 }
 

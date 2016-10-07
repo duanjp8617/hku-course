@@ -14,7 +14,7 @@
     mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
     // made the query
-    $query = "select * from users where userName="."'".$_GET["userName"]."'";
+    $query = "select * from users where userName='${_GET['userName']}'";
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $row = mysqli_fetch_array($result);
 
@@ -55,12 +55,11 @@
     mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
     // made the query
-    $query = "select * from profiles where userName="."'".$userName."'";
+    $query = "select * from profiles where userName='${userName}'";
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $row = mysqli_fetch_array($result);
 
     // here we render the webpage
-    print '<div id="userNameIdentifier", name='.$userName.'></div>';
     print '<h3>User Profile</h3><br>';
 
     // we only need a simple form here to hold all the elements.
