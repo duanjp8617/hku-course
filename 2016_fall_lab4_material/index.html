@@ -7,6 +7,22 @@
 
   <body onload="start()">
     <div id="content">
+      <div id="loginError"></div>
+      <form class="loginForm">
+        
+        <fieldset>
+          <legend>User Name</legend>
+          <input type="text" id="loginUserName">
+        </fieldset>
+
+        <fieldset>
+          <legend>Password</legend>
+          <input type="text" id="loginPassword">
+        </fieldset>
+
+      </form>
+      
+      <button onclick="login()">Log In</button>
     </div>
   </body>
 </html>

@@ -8,8 +8,9 @@ function start(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.1 TODO: 1. When the response is received, the inner HTML of the 
-      //              <div id="content"> element is replaced by the HTTP response text 
+      // 3.1 TODO: 1. If the response text is not "firstLogin", then the user has logged in before.
+      //              The response text contains the profile update webpage. We should replace
+      //              the inner HTML of the  <div id="content"> element with the response text 
     }
   }
 
@@ -28,11 +29,12 @@ function login(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.2 TODO: 3. When the response is received, the inner HTML of the 
-      //              <div id="content"> element is replaced by the HTTP response text
+      // 3.2 TODO: 3. If the response text is "invalidUserNamePassword", then we should notify
+      //              the user. We replace the innerHTML of the <div id="loginError"> element with
+      //              "<h3>Invalid user name or password.</h3>".
 
-      a=document.getElementById("content");
-      a.innerHTML=xmlhttp.responseText;
+      // 3.2 TODO: 4. If the reponse text is not "invalidUserNamePassword", then the login is successful.
+      //              We should replace the innerHTML of <div id="content"> element with the response text.
     }
   }
 
@@ -73,13 +75,6 @@ function updateProfile(){
 
   // 3.4 TODO: 3. Generate the HTTP GET method, carrying 3 parameters, which are
   //              "nickName", "gender" and "briefIntro"
-}
-
-function logout(){
-  // 3.6 TODO: 1. Implement the logout function. It should generate an HTTP
-  //              GET method to handleLogout.php, without carrying any parameters. 
-  //              It should replace inner HTML of the  <div id="content"> element 
-  //              with the HTTP response text. 
 }
 
 function inputCheck(){
