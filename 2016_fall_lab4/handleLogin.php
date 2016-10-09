@@ -5,6 +5,7 @@
   if( !isset($_COOKIE["userName"]) && !isset($_GET["userName"]) ){
     // this is the first time that the user logs in to the web page
     $loginFail = True;
+    print "firstLogin";
   }
   elseif( !isset($_COOKIE["userName"]) && isset($_GET["userName"]) ){
     // this is when user submits the user name and password to log in
@@ -37,10 +38,8 @@
   }
 
 
-  if($loginFail == True){
-    print 'loginFail';
-  }
-  else{
+  if($loginFail == False){
+
     $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
     mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 

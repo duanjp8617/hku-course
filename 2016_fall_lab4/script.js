@@ -8,9 +8,9 @@ function start(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      if(xmlhttp.responseText != "loginFail"){
-        a=document.getElementById("content");
-        a.innerHTML=xmlhttp.responseText;
+      if(xmlhttp.responseText != "firstLogin"){
+        contentElem = document.getElementById("content");
+        contentElem.innerHTML = xmlhttp.responseText;
       }
     }
   }
@@ -29,8 +29,14 @@ function login(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      a=document.getElementById("content");
-      a.innerHTML=xmlhttp.responseText;
+      if(xmlhttp.responseText == "<h3>Invalid user name or password.</h3>"){
+        loginErrorElem = document.getElementById("loginError");
+        loginErrorElem.innerHTML = xmlhttp.responseText;
+      }
+      else{
+        contentElem=document.getElementById("content");
+        contentElem.innerHTML=xmlhttp.responseText;
+      }
     }
   }
 
