@@ -28,7 +28,7 @@
     else{
       // login fails
       $loginFail = True;
-      print '<h3>Invalid user name or password.</h3>';
+      print 'invalidUserNamePassword';
     }
   }
   else{
@@ -80,7 +80,6 @@
 
     // by clicking this button, the user will log out
     print '<form class="logoutForm" action="handleLogout.php" method="get">';
-    //print '<button onclick="logout()">Log Out</button>';
     print '<input type="submit" value="Log Out">';
     print '</form>';
   }

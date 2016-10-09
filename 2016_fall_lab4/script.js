@@ -29,9 +29,9 @@ function login(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      if(xmlhttp.responseText == "<h3>Invalid user name or password.</h3>"){
+      if(xmlhttp.responseText == "invalidUserNamePassword"){
         loginErrorElem = document.getElementById("loginError");
-        loginErrorElem.innerHTML = xmlhttp.responseText;
+        loginErrorElem.innerHTML = "<h3>Invalid user name or password.</h3>";
       }
       else{
         contentElem=document.getElementById("content");
@@ -79,26 +79,6 @@ function updateProfile(){
 
   xmlhttp.open("GET","handleUpdate.php?nickName="+nickName+"&gender="+gender+"&briefIntro="+briefIntro,true);
   xmlhttp.send();  
-}
-
-function logout(){
-  
-  var xmlhttp;
-  if (window.XMLHttpRequest) {
-    xmlhttp = new XMLHttpRequest();
-  } else {
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-
-  xmlhttp.onreadystatechange = function () {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      a=document.getElementById("content");
-      a.innerHTML=xmlhttp.responseText;
-    }
-  }
-
-  xmlhttp.open("GET","handleLogout.php",true);
-  xmlhttp.send();     
 }
 
 function inputCheck(){
