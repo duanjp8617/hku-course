@@ -8,8 +8,10 @@ function start(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      a=document.getElementById("content");
-      a.innerHTML=xmlhttp.responseText;
+      if(xmlhttp.responseText != "loginFail"){
+        a=document.getElementById("content");
+        a.innerHTML=xmlhttp.responseText;
+      }
     }
   }
 
@@ -59,7 +61,9 @@ function updateProfile(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      alert(xmlhttp.responseText);
+      headingElem = document.getElementById("heading");
+      headingElem.innerHTML = "User Profile is Successfully Updated";
+      headingElem.setAttribute("style", "color:red;");
       
       nickNameElem.setAttribute("value", nickName);
       genderElem.setAttribute("value", gender);

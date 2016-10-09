@@ -1,10 +1,10 @@
 <?php
-  $printLoginPage = True;
+  $loginFail = True;
   $userName = '';
 
   if( !isset($_COOKIE["userName"]) && !isset($_GET["userName"]) ){
     // this is the first time that the user logs in to the web page
-    $printLoginPage = True;
+    $loginFail = True;
   }
   elseif( !isset($_COOKIE["userName"]) && isset($_GET["userName"]) ){
     // this is when user submits the user name and password to log in
@@ -21,34 +21,24 @@
     if(array_key_exists("password", $row)&&($row["password"]===$_GET["password"])){
       // login succeed
       setcookie("userName", $row["userName"], time()+3600);
-      $printLoginPage = False;
+      $loginFail = False;
       $userName = $_GET["userName"]; 
     }
     else{
       // login fails
-      $printLoginPage = True;
+      $loginFail = True;
       print '<h3>Invalid user name or password.</h3>';
     }
   }
   else{
     // the cookie is set
-    $printLoginPage = False;
+    $loginFail = False;
     $userName = $_COOKIE["userName"];
   }
 
 
-  if($printLoginPage == True){
-    print '<form class="loginForm">';
-    print '<fieldset>';
-    print '<legend>User Name</legend>';
-    print '<input type="text" id="loginUserName">';
-    print '</fieldset>';
-    print '<fieldset>';
-    print '<legend>Password</legend>';
-    print '<input type="text" id="loginPassword">';
-    print '</fieldset>';
-    print '</form>';
-    print '<button onclick="login()">Log In</button>';
+  if($loginFail == True){
+    print 'loginFail';
   }
   else{
     $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
@@ -60,7 +50,7 @@
     $row = mysqli_fetch_array($result);
 
     // here we render the webpage
-    print '<h3>User Profile</h3><br>';
+    print '<h3 id="heading">User Profile</h3><br>';
 
     // we only need a simple form here to hold all the elements.
     // things will be done through ajax.
@@ -90,6 +80,9 @@
     print '<button onclick="updateProfile()">Update Profile</button>';
 
     // by clicking this button, the user will log out
-    print '<button onclick="logout()">Log Out</button>';
+    print '<form class="logoutForm" action="handleLogout.php" method="get">';
+    //print '<button onclick="logout()">Log Out</button>';
+    print '<input type="submit" value="Log Out">';
+    print '</form>';
   }
 ?>
