@@ -79,8 +79,10 @@
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $row = mysqli_fetch_array($result);
 
-    // Define a header on the web page.
-    print '<h3>User Profile</h3><br>';
+    // Define a header on the web page. The id is set to "heading".
+    // This is used to generate an notification when the user successfully
+    // updates his profile.
+    print '<h3 id="heading">User Profile</h3><br>';
 
     // The input elements are placed in a form.
     print '<form class="userProfileForm">';

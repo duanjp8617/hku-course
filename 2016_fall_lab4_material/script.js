@@ -64,8 +64,10 @@ function updateProfile(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.4 TODO: 4. generate an alert, the alert contains the 
-      //              HTTP response text.
+      // 3.4 TODO: 4. Replace the innerHTML of the <h3 id="heading"> element 
+      //              (this element is dynamically generated when the user successfully logs in)
+      //              with "User Profile is Successfully Updated". Then set the "style" attribute
+      //              of <h3 id="heading"> element to "color:red;".
 
       // 3.4 TODO: 5. Set the value attribute of the 3 input elements
       //              to the updated value.
