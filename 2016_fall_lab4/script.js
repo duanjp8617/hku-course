@@ -1,24 +1,3 @@
-function start(){
-  var xmlhttp;
-  if (window.XMLHttpRequest) {
-    xmlhttp = new XMLHttpRequest();
-  } else {
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-
-  xmlhttp.onreadystatechange = function () {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      if(xmlhttp.responseText != "firstLogin"){
-        contentElem = document.getElementById("content");
-        contentElem.innerHTML = xmlhttp.responseText;
-      }
-    }
-  }
-
-  xmlhttp.open("GET", "handleLogin.php", true);
-  xmlhttp.send();     
-}
-
 function login(){
   var xmlhttp;
   if (window.XMLHttpRequest) {
@@ -68,12 +47,8 @@ function updateProfile(){
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       headingElem = document.getElementById("heading");
-      headingElem.innerHTML = "User Profile is Successfully Updated";
+      headingElem.innerHTML = xmlhttp.responseText;
       headingElem.setAttribute("style", "color:red;");
-      
-      nickNameElem.setAttribute("value", nickName);
-      genderElem.setAttribute("value", gender);
-      briefIntroElem.setAttribute("value", briefIntro);
     }
   }
 
@@ -86,9 +61,8 @@ function inputCheck(){
   gender = genderElem.value;
 
   if((gender != "M")&&(gender != "F")&&(gender != "")){
+    alert("Gender should be either F or M");
     genderElem.value = genderElem.getAttribute("value");
-  }
-  else{
-    // do nothing
+    genderElem.focus();
   }
 }

@@ -10,5 +10,5 @@
   $query = "update profiles set nickName='${nickName}',gender='${gender}',briefIntro='${briefIntro}' where userName='${userName}'";
   mysqli_query($conn,$query) or die ('Query Error! '. mysqli_error($conn));
   
-  print "Update is successful!";
+  print "Your profile has been successfully updated.";
 ?>

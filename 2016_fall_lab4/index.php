@@ -1,27 +1,48 @@
 <?php
-  // first establish the connection
-  $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
-  mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
-
-  // made the query
-  $query = "select * from users where userName='${_GET['userName']}'";
-  $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-  $row = mysqli_fetch_array($result);
-
-  if(array_key_exists("password", $row)&&($row["password"]===$_GET["password"])){
-    // login succeed
-    setcookie("userName", $row["userName"], time()+3600);
-  
+  if(!isset($_COOKIE["userName"])){
+    // the user has not logged in 
+    print '<html>';
+    print '<head>';
+    print '<title>Login Page</title>';
+    print '<link rel="stylesheet" type="text/css" href="style.css">';
+    print '<script src="script.js"></script>';
+    print '</head>';
+    print '<body>';
+    print '<div id="content">';
+    print '<div id="loginError"></div>';   
+    print '<form class="loginForm">';
+    print '<fieldset>';
+    print '<legend>User Name</legend>';
+    print '<input type="text" id="loginUserName">';
+    print '</fieldset>';
+    print '<fieldset>';
+    print '<legend>Password</legend>';
+    print '<input type="text" id="loginPassword">';
+    print '</fieldset>';
+    print '</form>';
+    print '<button onclick="login()">Log In</button>';
+    print '</div>';
+    print '</body>';
+    print '</html>';
+  }
+  else{
     $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
     mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
     // made the query
-    $userName = $_GET["userName"];
+    $userName = $_COOKIE["userName"];
     $query = "select * from profiles where userName='${userName}'";
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $row = mysqli_fetch_array($result);
 
-    // here we render the webpage
+    print '<html>';
+    print '<head>';
+    print '<title>Login Page</title>';
+    print '<link rel="stylesheet" type="text/css" href="style.css">';
+    print '<script src="script.js"></script>';
+    print '</head>';
+    print '<body>';
+    print '<div id="content">';
     print '<h3 id="heading">You have successfully logged in. You can update your profile as follows:</h3><br>';
 
     // we only need a simple form here to hold all the elements.
@@ -55,8 +76,5 @@
     print '<form class="logoutForm" action="handleLogout.php" method="get">';
     print '<input type="submit" value="Log Out">';
     print '</form>';
-  }
-  else{
-    print 'invalidUserNamePassword';
   }
 ?>
