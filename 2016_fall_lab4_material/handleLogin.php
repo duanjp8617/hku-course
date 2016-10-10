@@ -18,7 +18,7 @@
   $row = mysqli_fetch_array($result);
 
   if(array_key_exists("password", $row)&&($row["password"]==$_GET["password"])){
-    // The user name and password entered by the user matches those in the users table.
+    // The user name and password entered by the user match those in the users table.
     // The user successfully logs in to the system. 
 
     // 3.3 TODO: 2. set cookie "userName" for the user.
@@ -81,5 +81,10 @@
     print '<form class="logoutForm" action="handleLogout.php" method="get">';
     print '<input type="submit" value="Log Out">';
     print '</form>';
+  }
+  else{
+    // The user name and password entered by the user do not match those in the users table.
+    // Log in fail. Just response with "invalidUserNamePassword".
+    print 'invalidUserNamePassword';
   }
 ?>
