@@ -12,8 +12,8 @@
     // login succeed
     setcookie("userName", $row["userName"], time()+3600);
   
-    $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
-    mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
+    // $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
+    // mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
     // made the query
     $userName = $_GET["userName"];

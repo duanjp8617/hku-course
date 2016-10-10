@@ -1,24 +1,3 @@
-function start(){
-  var xmlhttp;
-  if (window.XMLHttpRequest) {
-    xmlhttp = new XMLHttpRequest();
-  } else {
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-
-  xmlhttp.onreadystatechange = function () {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.1 TODO: 1. If the response text is not "firstLogin", then the user has logged in before.
-      //              The response text contains the profile update webpage. We should replace
-      //              the inner HTML of the  <div id="content"> element with the response text 
-    }
-  }
-
-  // 3.1 TODO: 2. When index.html is loaded, start() function sends
-  //              an HTTP GET method to handleLogin.php. The GET method
-  //              does not have any parameters.
-}
-
 function login(){
   var xmlhttp;
   if (window.XMLHttpRequest) {
@@ -49,7 +28,7 @@ function login(){
 
 function updateProfile(){
   
-  // 3.4 TODO: 1. Retrive the nick name, gender and brief introduction
+  // 3.5 TODO: 1. Retrive the nick name, gender and brief introduction
   //              from the input elements with id "nickNameInputBox", 
   //              "genderInputBox" and "briefIntroInputBox". The instant input 
   //              You can use the .value field of the input element to obtain the instant
@@ -64,18 +43,15 @@ function updateProfile(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.4 TODO: 4. Replace the innerHTML of the <h3 id="heading"> element 
+      // 3.5 TODO: 4. Replace the innerHTML of the <h3 id="heading"> element 
       //              (this element is dynamically generated when the user successfully logs in)
       //              with "User Profile is Successfully Updated". Then set the "style" attribute
       //              of <h3 id="heading"> element to "color:red;".
-
-      // 3.4 TODO: 5. Set the value attribute of the 3 input elements
-      //              to the updated value.
     }
   }
 
 
-  // 3.4 TODO: 3. Generate the HTTP GET method, carrying 3 parameters, which are
+  // 3.5 TODO: 3. Generate the HTTP GET method, carrying 3 parameters, which are
   //              "nickName", "gender" and "briefIntro"
 }
 
@@ -87,9 +63,8 @@ function inputCheck(){
   gender = genderElem.value;
 
   if((gender != "M")&&(gender != "F")&&(gender != "")){
+    alert("Gender should be either F or M");
     genderElem.value = genderElem.getAttribute("value");
-  }
-  else{
-    // do nothing
+    genderElem.focus();
   }
 }

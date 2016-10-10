@@ -1,34 +1,52 @@
 <?php
+  // 3.1 TODO: 1. If the cookie variable "userName" is not set,
+  //              we should print the log in web page for the user.
+  //              Please substitute the ? symbol with correct value.
+  if(?){
+    // the user has not logged in 
+    print '<html>';
+    print '<head>';
+    print '<title>Login Page</title>';
+    print '<link rel="stylesheet" type="text/css" href="style.css">';
+    print '<script src="script.js"></script>';
+    print '</head>';
+    print '<body>';
+    print '<div id="content">';
+    print '<div id="loginError"></div>';   
+    print '<form class="loginForm">';
+    print '<fieldset>';
+    print '<legend>User Name</legend>';
+    print '<input type="text" id="loginUserName">';
+    print '</fieldset>';
+    print '<fieldset>';
+    print '<legend>Password</legend>';
+    print '<input type="text" id="loginPassword">';
+    print '</fieldset>';
+    print '</form>';
+    print '<button onclick="login()">Log In</button>';
+    print '</div>';
+    print '</body>';
+    print '</html>';
+  }
+  else{
+    $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
+    mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
-  // First we create the connection with the database. Please substitute csid and password
-  // with your own id and password.
-  $conn=mysqli_connect('sophia.cs.hku.hk','csid','password') or die ('Failed to Connect '.mysqli_error($conn));
-  mysqli_select_db($conn,'csid') or die ('Failed to Access DB'.mysqli_error($conn));
-
-  // Then we need to retrieve correct user namd and password from the users table.
-
-  // 3.3 TODO: 1. Here we need to retrieve user's user name and password stored
-  //              in the users table, using $_GET["userName"] as the key.
-  //              Please substitute the "?" symbol in the following line with 
-  //              correct value.
-  //              (Note that we can directly refer a PHP variable in a string using 
-  //               "'${variable name}'" syntax.)
-  $query = "select * from ? where userName='${?}'";
-  $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-  $row = mysqli_fetch_array($result);
-
-  if(array_key_exists("password", $row)&&($row["password"]==$_GET["password"])){
-    // The user name and password entered by the user matches those in the users table.
-    // The user successfully logs in to the system. 
-
-    // 3.3 TODO: 2. set cookie "userName" for the user.
-
-    // 3.3 TODO: 3. We need to retrive user's old profile value from the profiles table, using
-    //              $_GET["userName"] as the key.
+    // 3.4 TODO: 1. We need to retrive user's old profile value from the profiles table, using
+    //              $_COOKIE["userName"] as the key.
     //              Substitute the "?" symbol in the following line with correct value.
     $query = "select * from ? where userName='${?}'";
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $row = mysqli_fetch_array($result);
+
+    print '<html>';
+    print '<head>';
+    print '<title>Login Page</title>';
+    print '<link rel="stylesheet" type="text/css" href="style.css">';
+    print '<script src="script.js"></script>';
+    print '</head>';
+    print '<body>';
+    print '<div id="content">';
 
     // Define a header on the web page. The id is set to "heading".
     // This is used to generate an notification when the user successfully
@@ -38,8 +56,7 @@
     // The input elements are placed in a form.
     print '<form class="userProfileForm">';
 
-    
-    // 3.3 TODO: 4. The first input element is nickName of the user. 
+    // 3.4 TODO: 2. The first input element is nickName of the user. 
     //              It's value is initialized to the "nickName" field 
     //              of the query result.
     //              Substitute the "?" symbol with correct value.
@@ -48,7 +65,7 @@
     print '<input type="text", maxlength="20", id="nickNameInputBox", value="'.?.'">';
     print '</fieldset>';
 
-    // 3.3 TODO: 5. The second input element is the gender of the user. 
+    // 3.4 TODO: 3. The second input element is the gender of the user. 
     //              It's value is initialized to the "gender" field
     //              of the query result.
     //              Substitute the "?" symbol with correct value.
@@ -56,11 +73,8 @@
     print '<legend>Gender</legend>';
     print '<input type="text", maxlength="1", id="genderInputBox", value="'.?.'", onkeyup="inputCheck()">';
     print '</fieldset>';
-    //               (Note that the onkeyup event is handled by inputCheck() function, 
-    //                inputCheck() function ensures that only "F" and "M" characters 
-    //                can be typed into the input element of gender).
 
-    // 3.3 TODO 6: The last input element is the briefIntro of the user. 
+    // 3.4 TODO 4: The last input element is the briefIntro of the user. 
     //             It's value is initialized to the "briefIntro" field
     //             of the query result. 
     //             Substitute the "?" symbol with correct value.
