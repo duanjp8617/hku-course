@@ -85,6 +85,8 @@
   else{
     // The user name and password entered by the user do not match those in the users table.
     // Log in fail. Just response with "invalidUserNamePassword".
+    // When login() funcion of script.js file receives this reponse, it will replace the 
+    // <div id="loginError"> element with "<h3>Invalid user name or password.</h3>".
     print 'invalidUserNamePassword';
   }
 ?>
