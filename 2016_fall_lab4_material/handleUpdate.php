@@ -1,20 +1,23 @@
 <?php
-  $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect! '.mysqli_error($conn));
-  mysqli_select_db($conn, 'jpduan') or die ('Failed to Access DB! '.mysqli_error($conn));
+  //fill in your MySQL username and password in the following line
+  $conn=mysqli_connect('sophia.cs.hku.hk', username, password) or die ('Failed to Connect! '.mysqli_error($conn));
+  
+  //fill in your database name in the following line
+  mysqli_select_db($conn, dbname) or die ('Failed to Access DB! '.mysqli_error($conn));
 
-  // 3.6 TODO: 1. First, we store all the useful information contained in 
-  //              the cookie and the parameters of the HTTP GET method 
-  //              to the following local variables.
-  //              Substitute the "?" symbol with correct value.
+  // TODO: 1. Store all the useful information contained in 
+  //          the cookie and the parameters of the HTTP GET request 
+  //          to the following local variables.
+  //          Substitute "?"  with correct value.
   $userName = ?;
   $nickName = ?;
   $gender = ?;
   $briefIntro = ?;
 
-  // 3.6 TODO: 2. We need to update the user profile in profiles table. 
-  //              Substitute the "?" symbol with correct value.
-  $query = "update profiles set nickName='${?}',gender='${?}',briefIntro='${?}' where userName='${?}'";
+  // TODO: 2. Construct a query to update the user profile information in profiles table. 
+  //          Substitute  "?"  with correct value.
+  $query = "update profiles set nickName='".?."',gender='".?."',briefIntro='".?."' where userName='".?."'";
   mysqli_query($conn,$query) or die ('Query Error! '. mysqli_error($conn));
   
-  print "Update is successful!";
+  print "Your profile has been successfully updated.";
 ?>

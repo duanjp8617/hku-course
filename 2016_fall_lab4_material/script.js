@@ -8,31 +8,28 @@ function login(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.2 TODO: 3. If the response text is "invalidUserNamePassword", then we should notify
-      //              the user. We replace the innerHTML of the <div id="loginError"> element with
-      //              "<h3>Invalid user name or password.</h3>".
+      // TODO: 3. If the response text is "invalidUserNamePassword", then we should notify
+      //          the user by replacing the innerHTML of <div id="loginError"> element with
+      //          "<h3>Invalid user name or password.</h3>".
 
-      // 3.2 TODO: 4. If the reponse text is not "invalidUserNamePassword", then the login is successful.
-      //              We should replace the innerHTML of <div id="content"> element with the response text.
+      // TODO: 4. If the reponse text is not "invalidUserNamePassword", then the login is successful.
+      //          We should replace the innerHTML of <div id="content"> element with responseText.
     }
   }
 
-  // 3.2 TODO: 1. Please retrive the input user name and password from the
-  //              corresponding input elements with id "loginUserName" and "loginPassword". 
-  //              You can use the .value field of the input element to obtain the instant
-  //              user input.
+  // TODO: 1. Retrieve the input user name and password from the
+  //          input elements with id "loginUserName" and "loginPassword". 
 
-  // 3.2 TODO: 2. Please send an HTTP GET method to handleLogin.php, it should contain 2 
-  //              pameters, which are "userName" and "password". 
+
+  // TODO: 2. Send an HTTP GET request to retrieve handleLogin.php, which should carry 2 
+  //          key-value pairs corresponding to "userName" and "password". 
 }
 
 function updateProfile(){
   
-  // 3.5 TODO: 1. Retrive the nick name, gender and brief introduction
-  //              from the input elements with id "nickNameInputBox", 
-  //              "genderInputBox" and "briefIntroInputBox". The instant input 
-  //              You can use the .value field of the input element to obtain the instant
-  //              user input.
+  // TODO: 1. Retrive the nick name, gender and brief introduction
+  //          from the input elements with id "nickNameInputBox", 
+  //          "genderInputBox" and "briefIntroInputBox", repectively. 
 
   var xmlhttp;
   if (window.XMLHttpRequest) {
@@ -43,28 +40,22 @@ function updateProfile(){
 
   xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // 3.5 TODO: 4. Replace the innerHTML of the <h3 id="heading"> element 
-      //              (this element is dynamically generated when the user successfully logs in)
-      //              with "User Profile is Successfully Updated". Then set the "style" attribute
-      //              of <h3 id="heading"> element to "color:red;".
+      // TODO: 3. Replace the innerHTML of the <h3 id="heading"> element 
+      //          with responseText. Then set a "style" attribute
+      //          in the <h3 id="heading"> element with value of "color:red;".
+      //			    Hint: use "setAttribute()" http://www.w3schools.com/jsref/met_element_setattribute.asp
     }
   }
 
 
-  // 3.5 TODO: 3. Generate the HTTP GET method, carrying 3 parameters, which are
-  //              "nickName", "gender" and "briefIntro"
+  // TODO: 2. Generate the HTTP GET request, carrying 3 key-value pairs corresponding to
+  //          "nickName", "gender" and "briefIntro"
 }
 
 function inputCheck(){
-  // This function ensures that only "F" and "M" could be accepted 
-  // as valid input value.
 
-  genderElem = document.getElementById("genderInputBox");
-  gender = genderElem.value;
+  // TODO: Check the input gender value in the input element with ID "genderInputBox":
+  //       if the input value is not "F" nor "M" nor "", show an alert box with the message "Gender should be either F or M"
+  //	     and refocus the cursor on the gender input box
 
-  if((gender != "M")&&(gender != "F")&&(gender != "")){
-    alert("Gender should be either F or M");
-    genderElem.value = genderElem.getAttribute("value");
-    genderElem.focus();
-  }
 }

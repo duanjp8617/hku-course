@@ -7,7 +7,7 @@
   $gender = $_GET['gender'];
   $briefIntro = $_GET['briefIntro'];
 
-  $query = "update profiles set nickName='${nickName}',gender='${gender}',briefIntro='${briefIntro}' where userName='${userName}'";
+  $query = "update profiles set nickName='".$nickName."',gender='".$gender."',briefIntro='".$briefIntro."' where userName='".$userName."'";
   mysqli_query($conn,$query) or die ('Query Error! '. mysqli_error($conn));
   
   print "Your profile has been successfully updated.";

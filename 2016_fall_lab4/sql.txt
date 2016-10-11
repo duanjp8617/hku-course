@@ -17,7 +17,7 @@ VALUES (
 );
 
 CREATE TABLE profiles (
-	userName varchar(20) NOT NULL,
+    userName varchar(20) NOT NULL,
     nickName varchar(20) NOT NULL,
     gender varchar(1) NOT NULL,
     briefIntro longtext,
