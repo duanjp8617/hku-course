@@ -32,8 +32,8 @@ function loadSimplifiedDisplay(){
 		$(".clickableTitle").on("click", getFullDisplay);
 	});
 
-	$("#top").show();
-	$("#middle").show();
+	$("#left").show();
+	$("#central").show();
 	$("#buttonSave").show();
 
 	$("#buttonUpdate").hide();
@@ -51,22 +51,22 @@ function getFullDisplay(){
 			$("#noteContent").val(note["content"]);
 		});
 
-		$("#top").hide();
-		$("#middle").hide();
+		$("#left").hide();
+		$("#central").hide();
 		$("#buttonSave").hide();
 
 		$("#buttonUpdate").show();
 		$("#buttonBack").show();
 
-		$("#bottomHeader").html("Update Old Note");
-		$("#bottom").css("margin-left", "37.5%");
+		$("#rightHeader").html("Update Old Note");
+		$("#right").css("margin-left", "37.5%");
 	});
 }
 
 function getBack(){
 	loadSimplifiedDisplay();
-	$("#bottomHeader").html("Add New Note");
-	$("#bottom").css("margin-left", "5%");
+	$("#rightHeader").html("Add New Note");
+	$("#right").css("margin-left", "5%");
 }
 
 function saveNewNote(){
@@ -90,7 +90,7 @@ function updateNote(){
 
 	$.get("handleUpdate.php?title="+newTitle+"&content="+newContent+"&id="+id, function(data, status){
 		if(data=="updateSucceed"){
-			alert("The note is successfully updated.")
+			$("#rightHeader").html("Update Succeeds");
 		}
 		else{
 			alert("The note is not successfully updated.");
