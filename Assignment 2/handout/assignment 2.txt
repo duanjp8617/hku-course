@@ -1,0 +1,25 @@
+
+chat room
+
+shopping cart
+
+Inbox
+
+
+AJAX:
+
+News Feed:
+
+1. 登录以后油新闻， 登录后可以点进去，进取以后大title和时间， 可以post comments 可以看到其他人的comment。 bar log in to post 
+   click log in， enter log in web page, then back to post web page, after finishing input there's a submit 
+   Then there's box to continue enter.
+
+   After log in 右上角显示一个log out
+
+2. back to main page， if we have entered some news, then we change the color.
+
+3. Search button, press then show enter bar, then we can do the search, according to the heading. Search key words in titles.
+
+4. Show selection page, 1 2 3 4 page index in the initial page
+
+5. Load everything in main page, remember to get back.
