@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple Lecture Schedule Page</title>
+    <link rel="stylesheet" type="text/css"  href="style.css">
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <div id="top">
+      <h3>Simple Notes</h3>
+      <input type="text" id="searchBox">
+    </div>
+
+    <div id="middle">
+      <ul style="list-style: none;" id="ulNotes">
+      </ul>
+    </div>
+
+    <div id="bottom">
+      <form class="loginForm">
+        <fieldset>
+          <legend>Title</legend>
+          <input type="text" id="noteTitle">
+        </fieldset>
+        
+        <fieldset>
+          <legend>Content</legend>
+          <input type="text" id="noteContent">
+        </fieldset>
+      </form>
+      <button id="buttonSave">Save</button>
+      <button id="buttonUpdate">Update</button>
+      <button id="buttonBack">Back</button>
+    </div>
+  </body>
+
+</html>
