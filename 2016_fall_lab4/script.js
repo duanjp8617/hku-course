@@ -22,8 +22,8 @@ function loadSimplifiedDisplay(){
 		$.each(jsonData.simplifiedNotes, function(i, note){
 			var txt = "";
 			txt += "<li>";
-			txt += "<h3 class=\"clickableTitle\" noteId="+note["id"]+" id=h4_"+note["id"]+">"+note["title"]+"</h3>";
-			txt += "<h4 id=h5_"+note["id"]+">"+note["simplifiedContent"]+"</h4>";
+			txt += "<h3 class=\"clickableTitle\" noteId="+note["id"]+" id=h3_"+note["id"]+">"+note["title"]+"</h3>";
+			txt += "<h4 id=h4_"+note["id"]+">"+note["simplifiedContent"]+"</h4>";
 			txt += "</li>";
 
 			$("#ulNotes").append(txt);
@@ -115,12 +115,12 @@ function search(){
 	});
 
 	$.each(showIdList, function(i, id){
+		$("#h3_"+id).show();
 		$("#h4_"+id).show();
-		$("#h5_"+id).show();
 	})
 
 	$.each(hideIdList, function(i, id){
+		$("#h3_"+id).hide();
 		$("#h4_"+id).hide();
-		$("#h5_"+id).hide();
 	})
 }

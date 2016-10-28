@@ -19,7 +19,7 @@
             $pos+=1;
         }
 
-        if($pos<sizeof($string_array)){
+        if($pos<(sizeof($string_array)-1)){
             return $simplified_content."......";
         }
         else{
