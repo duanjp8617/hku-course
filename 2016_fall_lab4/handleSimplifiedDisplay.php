@@ -20,11 +20,10 @@
         }
 
         if($pos<(sizeof($string_array)-1)){
-            return $simplified_content."......";
+            $simplified_content=$simplified_content."......";
         }
-        else{
-            return $simplified_content;
-        }
+        
+        return $simplified_content;
     }
     
 
