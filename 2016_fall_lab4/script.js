@@ -1,7 +1,8 @@
 $(document).ready(function() {
+	
 	loadSimplifiedDisplay();
 
-	$("#buttonBack").on("click", loadSimplifiedDisplay);
+	$("#buttonBack").on("click", getBack);
 
 	$("#buttonSave").on("click", saveNewNote);
 
@@ -21,8 +22,8 @@ function loadSimplifiedDisplay(){
 		$.each(jsonData.simplifiedNotes, function(i, note){
 			var txt = "";
 			txt += "<li>";
-			txt += "<h4 class=\"clickableTitle\" noteId="+note["id"]+" id=h4_"+note["id"]+">"+note["title"]+"</h4>";
-			txt += "<h5 id=h5_"+note["id"]+">"+note["simplifiedContent"]+"</h5>";
+			txt += "<h3 class=\"clickableTitle\" noteId="+note["id"]+" id=h4_"+note["id"]+">"+note["title"]+"</h3>";
+			txt += "<h4 id=h5_"+note["id"]+">"+note["simplifiedContent"]+"</h4>";
 			txt += "</li>";
 
 			$("#ulNotes").append(txt);
@@ -41,7 +42,6 @@ function loadSimplifiedDisplay(){
 }
 
 function getFullDisplay(){
-	
 	var id = $(this).attr("noteId");
 
 	$.getJSON("handleFullDisplay.php?id="+id, function(jsonData){
@@ -57,7 +57,16 @@ function getFullDisplay(){
 
 		$("#buttonUpdate").show();
 		$("#buttonBack").show();
+
+		$("#bottomHeader").html("Update Old Note");
+		$("#bottom").css("margin-left", "37.5%");
 	});
+}
+
+function getBack(){
+	loadSimplifiedDisplay();
+	$("#bottomHeader").html("Add New Note");
+	$("#bottom").css("margin-left", "5%");
 }
 
 function saveNewNote(){
