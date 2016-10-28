@@ -42,13 +42,12 @@
             $pos+=1;
         }
 
-        // Append "......" if $pos is smaller than sizeof($string_array)-1
+        // TODO: 6. Append "......" to $simplified_content if $pos is smaller than sizeof($string_array)-1.
         if($pos<(sizeof($string_array)-1)){
-            return $simplified_content."......";
+             $simplified_content = $simplified_content."......";
         }
-        else{
-            return $simplified_content;
-        }
+
+        return $simplified_content;
     }
     
 
@@ -63,7 +62,7 @@
     $json = array();
 	
     while($row=mysqli_fetch_array($result)) {
-        // TODO: 6. Manually create an PHP indexed array, with "id" field set to $row["id"], "title" field set to $row["title"] and
+        // TODO: 7. Manually create an PHP indexed array, with "id" field set to $row["id"], "title" field set to $row["title"] and
         //          "simplifiedContent" set to extract_simplified_contents($row['content'], " ", 10).
         $json[]=array('id'=>$row['id'], 'title'=>$row['title'],'simplifiedContent'=>extract_simplified_contents($row['content'], " ", 10));
     }
