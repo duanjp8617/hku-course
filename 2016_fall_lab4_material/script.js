@@ -213,6 +213,7 @@ function search(){
 		//         we should add the id of the note to showIdList. Otherwise we should 
 		//         add the id of the note to hideIdList. 
 		//         Hint: If str.indexOf(searchStr) == 0, then searchStr is a valid suffix of str.
+		//               And you can retrieve the id of the note from the "noteId" attribute.
 		if($(this).text().toUpperCase().indexOf(searchStr) == 0){
 			showIdList.push($(this).attr("noteId"));
 		}

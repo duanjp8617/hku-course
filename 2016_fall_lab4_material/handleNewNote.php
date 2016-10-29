@@ -8,9 +8,12 @@
     
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     
+    // TODO: 1. Calculate the id for the new note. The id should be the total number of 
+    //          existing notes in the database plus 1. You can use mysqli_num_rows to get
+    //          the total number of rows in the query result.
     $newNoteId = mysqli_num_rows($result)+1;
     
-
+    // TODO: 2. Insert the new note to the database.
     $query = "insert into notes values (".$newNoteId.",'".$_GET["title"]."','".$_GET["content"]."')";
 	
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
