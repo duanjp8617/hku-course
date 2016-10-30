@@ -31,22 +31,13 @@ div#right{
 	width: 25%;
 }
 
-div#central{
-	margin-top:5%;
-	float:left;
-	margin-left:5%;
-	display: block;
-	border-width: 0px;
-	width: 20%;
-}
-
 div#left{
 	margin-top:5%;
 	float:left;
-	margin-left:17.5%;
+	margin-left:25%;
 	display: block;
 	border-width: 0px;
-	width: 10%;
+	width: 20%;
 }
 
 input[type="text"] {
