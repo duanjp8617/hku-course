@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	
-	loadSimplifiedDisplay();
+	loadAllNotes();
 
 	$("#buttonSave").on("click", saveNewNote);
 
@@ -12,15 +12,26 @@ $(document).ready(function() {
 
 });
 
-function loadSimplifiedDisplay(){
+function loadAllNotes(){
 	$("#ulNotes").html("");
 	$("#noteTitle").val("");
 	$("#noteContent").val("");
 
-	$.getJSON("handleSimplifiedDisplay.php", function(jsonData){
+	$.getJSON("handleLoadAllNotes.php", function(jsonData){
 		
 		jsonData.simplifiedNotes.sort(function(x, y){
-			return x["title"]>y["title"];
+			x_title = x["title"].toUpperCase();
+			y_title = y["title"].toUpperCase();
+
+			if (x_title < y_title){
+        		return -1;
+        	} 
+    		if (x_title > y_title){
+        		return 1;
+        	}
+        	else{
+    			return 0;
+    		} 
 		});
 
 		$.each(jsonData.simplifiedNotes, function(i, note){
@@ -34,7 +45,7 @@ function loadSimplifiedDisplay(){
 			$("#ulNotes").append(txt);
 		});
 
-		$(".clickableTitle").on("click", getFullDisplay);
+		$(".clickableTitle").on("click", startUpdate);
 	});
 }
 
@@ -44,7 +55,7 @@ function saveNewNote(){
 
 	$.get("handleNewNote.php?title="+newTitle+"&content="+newContent, function(data, status){
 		if(data=="newNoteOK"){
-			loadSimplifiedDisplay();
+			loadAllNotes();
 		}
 		else{
 			alert("New note is not successfully created.");
@@ -52,20 +63,16 @@ function saveNewNote(){
 	});
 }
 
-function getFullDisplay(){
-	var id = $(this).attr("noteId");
+function startUpdate(){
 
-	$.getJSON("handleFullDisplay.php?id="+id, function(jsonData){
-		$.each(jsonData.fullNotes, function(i, note){
-			$("#noteTitle").val(note["title"]);
-			$("#noteTitle").attr({"noteId":note["id"]});
-			$("#noteContent").val(note["content"]);
-		});
+	$("#noteTitle").val($(this).text());
+	$("#noteContent").val($(this).next().text());
 
-		$("#buttonSave").hide();
-		$("#buttonUpdate").show();
-		$("#rightHeader").html("Update Old Note");
-	});
+	$("#noteTitle").attr({"noteId":$(this).attr("noteId")});
+
+	$("#buttonSave").hide();
+	$("#buttonUpdate").show();
+	$("#rightHeader").html("Update Old Note");
 }
 
 function updateNote(){
@@ -79,7 +86,7 @@ function updateNote(){
 			$("#buttonUpdate").hide();
 			$("#rightHeader").html("Add New Note");
 
-			loadSimplifiedDisplay();
+			loadAllNotes();
 		}
 		else{
 			alert("The note is not successfully updated.");
