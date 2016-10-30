@@ -14,6 +14,6 @@
         $json[]=array('id'=>$row['id'], 'title'=>$row['title'],'content'=>$row['content']);
     }
 
-    print json_encode(array('simplifiedNotes'=>$json));
+    print json_encode(array('notes'=>$json));
 
 ?>

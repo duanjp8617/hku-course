@@ -31,16 +31,17 @@ function loadAllNotes(){
 
 	// TODO: 3. Use getJSON to retrive a json string response from "handleLoadAllNotes.php".
 	//          The json string stores all the simplified notes using the following format:
-	//          "simplifiedNotes":[{"id":x, "title":y, "content":z}, {"id":x1, "title":y1, "content":z1}]
+	//          "notes":[{"id":x, "title":y, "content":z}, {"id":x1, "title":y1, "content":z1}]
 	$.getJSON("handleLoadAllNotes.php", function(jsonData){
 		
 
 		// The notes should be displayed with their titles sorted in ascending alphabatical order.
-		// So we need to sort the jsonData.simplifiedNotes array according to the "title" field of
+		// So we need to sort the jsonData.notes array according to the "title" field of
 		// each object in the array.
 		// The argument of the anonymous function x and y represent 2 objects in the array that
 		// are waiting to be sorted.   
-		jsonData.simplifiedNotes.sort(function(x, y){
+		jsonData.notes.sort(function(x, y){
+			
 			// TODO: 4. Transform the title field of x and y to upper case using toUpperCase() method
 			//          and save the transformed strings in x_title and y_title.
 			x_title = x["title"].toUpperCase();
@@ -63,7 +64,7 @@ function loadAllNotes(){
 		//          If the id, title and content field of a note is 3, "Hello" and "Yeah!" respectively, then
 		//          the format of the <li> element should be:
 		//          <li><h3 class="clickableTitle" noteId=3>Hello</h3><h4>Yeah!</h4></li>
-		$.each(jsonData.simplifiedNotes, function(i, note){
+		$.each(jsonData.notes, function(i, note){
 
 			var txt = "";
 			txt += "<li>";
