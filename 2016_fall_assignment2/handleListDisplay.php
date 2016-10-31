@@ -25,8 +25,6 @@
         
         return $simplified_content;
     }
-    
-    $startingIndex = 5*($_GET["pageIndex"]-1);
 
     $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
     mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
@@ -35,7 +33,17 @@
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $totalEntryNum = mysqli_num_rows($result);
 
-    $query = "select * from news where headline like '%".$_GET["searchString"]."%' limit ".$startingIndex.", 5";
+    $startingIndex = intval($totalEntryNum)-intval($_GET["pageIndex"])*5;
+    $query = "";
+
+    if($startingIndex<0){
+        $num = 5+$startingIndex;
+        $query = "select * from news where headline like '%".$_GET["searchString"]."%' limit 0, ".$num;
+    }
+    else{
+        $query = "select * from news where headline like '%".$_GET["searchString"]."%' limit ".$startingIndex.", 5";
+    }
+    
     $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
     $json = array();
     while($row=mysqli_fetch_array($result)) {
