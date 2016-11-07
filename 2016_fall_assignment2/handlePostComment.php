@@ -17,11 +17,11 @@
   $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
   $newComment = array();
   while($row=mysqli_fetch_array($result)) {
-      // If the ID of the retrieved comment is larger than the ID of newest comment on the user's web page,
-      // then the retrieved comment is not displayed on user's web page, we need to send this comment back to the user.
-      if(intval($_GET["newestCommentID"])<intval($row["commentID"])){
-        $newComment[] = array('commentID'=>$row["commentID"], 'userID'=>$row["userID"], 'newsID'=>$row["newsID"], 'content'=>$row["content"], 'time'=>$row["time"]);
-      }
+    // If the ID of the retrieved comment is larger than the ID of newest comment on the user's web page,
+    // then the retrieved comment is not displayed on user's web page, we need to send this comment back to the user.
+    if(intval($_GET["newestCommentID"])<intval($row["commentID"])){
+      $newComment[] = array('commentID'=>$row["commentID"], 'userID'=>$row["userID"], 'newsID'=>$row["newsID"], 'content'=>$row["content"], 'time'=>$row["time"]);
+    }
   }
 
   // Encode all the comments that is not displayed on user's web page in a JSON string
