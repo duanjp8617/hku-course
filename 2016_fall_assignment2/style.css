@@ -115,8 +115,9 @@ div#pageIndex h3{
 	font-size: 15px;
 	font-weight: bold;
 	display:inline-block;
-	color: #b33636;
+	color: black;
 	border-bottom-color:#000000;
+	border-bottom-style:solid;
 }
 
 div#newsInfo{

@@ -72,7 +72,7 @@ function loadNewsList(pageIndex){
       var txt = "";
 
       if((i+1)==pageIndex){
-        txt += "<h3 style=\"border-bottom-style:solid\" onclick=\"loadNewsList("+(i+1)+")\">"+(i+1)+"</h3>";
+        txt += "<h3 style=\"color:red\" onclick=\"loadNewsList("+(i+1)+")\">"+(i+1)+"</h3>";
       }
       else{
         txt += "<h3 onclick=\"loadNewsList("+(i+1)+")\">"+(i+1)+"</h3>";
