@@ -7,8 +7,12 @@
     <script src="script.js"></script>
     <script>
       $(document).ready(function() {
+        // loadNewsList(1) should be called when 
+        // index.html is loaded.
         loadNewsList(1);
         
+        // When the search news headline button is clicked,
+        // loadNewsList(1) should be called.
         $("#searchButton").on("click", function(){
           loadNewsList(1);
         });

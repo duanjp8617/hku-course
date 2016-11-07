@@ -14,10 +14,12 @@
         $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
         mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
 
+        // Retrieve the news with $_GET["newsID"].
         $query = "select * from news where newsID=".$_GET["newsID"];
         $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
         
         while($row=mysqli_fetch_array($result)) {
+          // Display the headline, time and content of the retrived news on the webpage.
           print '<div id="newsInfo">';
           print '<a href="index.html"><img src="images/arrow.jpeg"></img></a>';
           print '<h2>'.$row["headline"]."</h2>";
@@ -31,6 +33,23 @@
         <ul id="ulComments">
           <?php
             
+            $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
+            mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
+
+            // Retrieve all the comments associated with the news.
+            $query = "select * from comments where newsID=".$_GET["newsID"];
+            $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+            
+            $comment_array = array();
+            while($row=mysqli_fetch_array($result)) {
+              // Put the following fields into an array.
+              $comment_array[] = array('commentID'=>$row['commentID'], 'userID'=>$row['userID'], 'content'=>$row['content'], 'time'=>$row['time']);
+            }
+
+            // Sort $comment_array using customized sorting function, 
+            // so that the comment appears in reverse chronological order.
+            // Since the comment with a larger commentID is posted later, we 
+            // only need to compare the 'commentID' field in the customized sorting function.
             function cmp($a, $b){
               if($a['commentID']<$b['commentID']){
                 return 1;
@@ -42,21 +61,9 @@
                 return 0;
               }
             }
-
-            $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
-            mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
-
-            $query = "select * from comments where newsID=".$_GET["newsID"];
-            $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-            
-            $comment_array = array();
-            while($row=mysqli_fetch_array($result)) {
-              $comment_array[] = array('commentID'=>$row['commentID'], 'userID'=>$row['userID'], 'content'=>$row['content'], 'time'=>$row['time']);
-            }
-
-            // sort $comment_array using customized sorting function. 
             usort($comment_array, "cmp");
 
+            // Display the sorted comments on the webpage.
             foreach($comment_array as $comment) {
               $query = "select * from users where userID=".$comment["userID"];
               $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
@@ -75,7 +82,13 @@
 
       <div id="postComment">
         <?php
-
+          // Display an input box and a button according to the login status of the user. 
+          // If the user has not logged in, display a button which redirects the user to login.php file.
+          // If the user has logged in, register the "onclick" event handler of the button with "postComment()" function
+          // in script.js. 
+          // Also note that the ID of the news being displayed is stored in the "newsID" attribute of the 
+          // <a> element that contains the <button> element. The "postComment()" function utilizes the "newsID" attribute
+          // to correctly retrieve the newsID of the news.
           if(!isset($_COOKIE["userID"])){
             print '<input type="text" id="commentInputBox" disabled>';
             print '<a href="login.php?newsID='.$_GET["newsID"].'"><button type="button">login to comment</button></a>';
