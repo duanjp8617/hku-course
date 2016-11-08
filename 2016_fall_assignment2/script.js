@@ -67,7 +67,7 @@ function loadNewsList(pageIndex){
     // Insert the page indexes into "#pageIndex" <div> element.
     // We use <h3> to store a page index. Note that we add an underline
     // to the current pageIndex by setting the "border-bottom-style" of
-    // the corresponding <h3> element to "solid".
+    // the corresponding <h3> element to "solid" in style.css.
     for(i=0; i<pageIndexNum; i++){
       var txt = "";
 
@@ -131,7 +131,7 @@ function postComment(){
         }
       });
 
-      // Prepend all the received comments in front of the current comments.
+      // Prepend all the received comments before the existing comments
       $.each(jsonData.newComments, function(i, comment){
         var txt = "";
 
@@ -168,7 +168,7 @@ function login(){
         $("#submitButton").hide();
       }
       else{
-        // If login is unsuccessful, display the reason on the header.
+        // If login is unsuccessful, display the error message on the header.
         $("#loginHeading").text(data);
       }
     });
@@ -176,7 +176,7 @@ function login(){
 }
 
 function logout(){
-  // Generate an HTTP request to handleLogout.php to logout.
+  // Generate an HTTP request to handleLogout.php for logout.
   $.get("handleLogout.php", function(data, status){
     $("#loginOrLogout").html("<a href=\"login.php?newsID=0\">login</a>");
   });

@@ -25,7 +25,7 @@
         <button id="submitButton" onclick="login()">Submit</button><br>
 
         <?php
-          // The "Go back" link to should link to different url depending on
+          // The "Go back" link should link to a different url depending on
           // the value of $_GET["newsID"] parameter.
           if(intval($_GET["newsID"])==0){
             print '<a href="index.html">Go back</a>';

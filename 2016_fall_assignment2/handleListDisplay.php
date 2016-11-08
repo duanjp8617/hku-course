@@ -30,13 +30,7 @@
 
       $pos+=1;
     }
-
-    if($pos<(sizeof($string_array)-1)){
-      // If the simplified content is shorter than the full content,
-      // we append a "......" symbol at the end of the simplified content.
-      $simplified_content=$simplified_content."......";
-    }
-    
+   
     return $simplified_content;
   }
 
@@ -61,7 +55,7 @@
 
   if($startingIndex<0){
     // the $startingIndex may be smaller than 0.
-    // In that case, the we are on the last page where the number of available news
+    // In that case, we are on the last page where the number of available news
     // is smaller than 5. We do some adjustments to retrieve the correct number of news from
     // the database.
     $num = 5+$startingIndex;
@@ -71,7 +65,7 @@
     $query = "select * from news where headline like '%".$searchString."%' limit ".$startingIndex.", 5";
   }
   
-  // encode the news in the follwoing json string
+  // encode the news in the following json string
   $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
   $json = array();
   while($row=mysqli_fetch_array($result)) {
