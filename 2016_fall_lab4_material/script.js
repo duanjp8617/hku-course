@@ -6,7 +6,7 @@ $(document).ready(function() {
   // Set event handler of "click" on "#buttonSave" button to saveNewNote() function
   $("#buttonSave").on("click", saveNewNote);
 
-  // TODO: 1. Set event handler of "click" on "#buttonUpdate" button to saveNewNote() function
+  // TODO: 1. Set event handler of "click" on "#buttonUpdate" button to updateNote() function
   
   // TODO: 2. show the "#buttonSave" button
   

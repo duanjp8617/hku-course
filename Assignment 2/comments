@@ -1,0 +1,16 @@
+Dear Jingpu,
+
+I have gone through the solution of assignment 2. Attached please find files that I touched. Please check these files out and also do the following:
+
+1. add comments into the solution files 
+
+2. preparing CSS styling. Especially, note the following:
+-remove markers from the news list
+-the page numbers at the bottom of the news list display page should be underlined; instead of using “background-color: yellow” to highlight the current page index, use a different color for the font
+-replace “back” on individual news entry display page by an arrow, as shown in snapshots in the assignment handout
+—“login to comment” and “post comment” should be buttons
+
+3. Prepare the detailed marking scheme 
+
+Thanks,
+Chuan
