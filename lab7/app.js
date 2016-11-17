@@ -10,15 +10,17 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/lab7');
 
+// in lab7, we no longer need routes to render index.html web page.
+// var routes = require('./routes/index');
 
-var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// In lab7, we no longer need the template engine, so we comment
+// out the following 2 lines.
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -34,8 +36,9 @@ app.use(function(req,res,next){
     next();
 });
 
+// in lab7, we no longer need use routes
+// app.use('/', routes);
 
-app.use('/', routes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

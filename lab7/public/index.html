@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" ng-app="stundentList">
+  <head>
+    <meta charset="utf-8">
+    <title>My HTML File</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+    <script src="/javascripts/externalJS.js"></script>
+  </head>
+  <body ng-controller="StudentListController">
+    <h1>Lab7</h1>
+    <p>Welcome to lab 7.</p>
+
+    <div id="wrapper">
+      <div id="studentInfo">
+        <h2>Student Info</h2>
+        <p>
+          <strong>Name:</strong> <span>{{existing_student.name}}</span><br>
+          <strong>Major:</strong> <span>{{existing_student.major}}</span><br>
+          <strong>Gender:</strong> <span>{{existing_student.gender}}</span><br>
+          <strong>Student ID:</strong> <span>{{existing_student.studentid}}</span>
+        </p>
+      </div>
+
+      <h2>Student List</h2>
+      
+      <div id="studentList">
+        <table>
+          <thead>
+            <th>StudentName</th>
+            <th>Email</th>
+            <th>Delete?</th>
+          </thead>
+          
+          <tbody>
+            <tr ng-repeat="student in students">
+              <td><a href="#/" ng-click="showStudent({{student}})">{{student.name}}</td>
+              <td>{{student.email}}</td>
+              <td><a href="#/" ng-click="deleteStudent({{student._id}})">delete</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <h2>Add Student</h2>
+      
+      <div id="addStudent">
+        <fieldset>
+          <input type="text" ng-model="new_student.name" placeholder="Student Name">
+          <input type="text" ng-model="new_student.email" placeholder="Email"><br>
+          <input type="text" ng-model="new_student.major" placeholder="Major">
+          <input type="text" ng-model="new_student.gender" placeholder="Gender"><br>
+          <input type="text" ng-model="new_student.studentid" placeholder="Student ID"><br>
+          <button ng-click="addStudent(new_student)">Add Student</button>
+        </fieldset>
+      </div>
+    </div>
+  </body>
+</html>
