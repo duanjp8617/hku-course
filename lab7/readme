@@ -4,4 +4,13 @@ The ./views folder and ./routes/index.js are deleted because we don't need pug/j
 
 The code for creating the jade/pug template engine and defining routes variable are commented out in app.js.
 
-The static webpage file is located in /public/index.html, the script file is in /public/javascripts/externalJS.js
+The static webpage file is located in /public/index.html, the script file is in /public/javascripts/externalJS.js.
+
+To run lab7, please use the following command:
+
+1. Set up mongodb according to last year's lab7 handout. 
+
+2. npm start
+
+3. go to localhost:3000 to see the web page.
+
