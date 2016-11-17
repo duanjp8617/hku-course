@@ -34,8 +34,8 @@
     return $simplified_content;
   }
 
-  $conn=mysqli_connect('sophia.cs.hku.hk','jpduan','dj824135') or die ('Failed to Connect '.mysqli_error($conn));
-  mysqli_select_db($conn,'jpduan') or die ('Failed to Access DB'.mysqli_error($conn));
+  $conn=mysqli_connect('sophia.cs.hku.hk','username','password') or die ('Failed to Connect '.mysqli_error($conn));
+  mysqli_select_db($conn,'dbname') or die ('Failed to Access DB'.mysqli_error($conn));
 
   // First, we replace "'" in the search string with "\'" to avoid the "'" symbol from affecting
   // the SQL query.
