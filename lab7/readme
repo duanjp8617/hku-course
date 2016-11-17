@@ -1,0 +1,7 @@
+This is the lab7 implemented with angular js. The functionality of the web page is exactly the same as last year's lab7. But I replace the front end implementation with angularJS.
+
+The ./views folder and ./routes/index.js are deleted because we don't need pug/jade template engine any more.
+
+The code for creating the jade/pug template engine and defining routes variable are commented out in app.js.
+
+The static webpage file is located in /public/index.html, the script file is in /public/javascripts/externalJS.js
