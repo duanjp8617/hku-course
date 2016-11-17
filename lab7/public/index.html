@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="stundentList">
+<html lang="en" ng-app="studentList">
   <head>
     <meta charset="utf-8">
     <title>My HTML File</title>
@@ -19,7 +19,7 @@
           <strong>Name:</strong> <span>{{existing_student.name}}</span><br>
           <strong>Major:</strong> <span>{{existing_student.major}}</span><br>
           <strong>Gender:</strong> <span>{{existing_student.gender}}</span><br>
-          <strong>Student ID:</strong> <span>{{existing_student.studentid}}</span>
+          <strong>Student ID:</strong> <span>{{existing_student.studentID}}</span>
         </p>
       </div>
 
@@ -35,9 +35,9 @@
           
           <tbody>
             <tr ng-repeat="student in students">
-              <td><a href="#/" ng-click="showStudent({{student}})">{{student.name}}</td>
+              <td><a href="#/" ng-click="showStudent(student)">{{student.name}}</td>
               <td>{{student.email}}</td>
-              <td><a href="#/" ng-click="deleteStudent({{student._id}})">delete</td>
+              <td><a href="#/" ng-click="deleteStudent(student._id)">delete</td>
             </tr>
           </tbody>
         </table>
@@ -51,7 +51,7 @@
           <input type="text" ng-model="new_student.email" placeholder="Email"><br>
           <input type="text" ng-model="new_student.major" placeholder="Major">
           <input type="text" ng-model="new_student.gender" placeholder="Gender"><br>
-          <input type="text" ng-model="new_student.studentid" placeholder="Student ID"><br>
+          <input type="text" ng-model="new_student.studentID" placeholder="Student ID"><br>
           <button ng-click="addStudent(new_student)">Add Student</button>
         </fieldset>
       </div>
