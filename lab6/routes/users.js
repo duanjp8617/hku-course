@@ -2,22 +2,22 @@ var express = require('express');
 var router = express.Router();
 
 /*
- * GET studentList.
+ * GET contactList.
  */
-router.get('/studentList', function(req, res) {
+router.get('/contactList', function(req, res) {
     var db = req.db;
-    var collection = db.get('studentList');
+    var collection = db.get('contactList');
     collection.find({},{},function(e,docs){
         res.json(docs);
     });
 });
 
 /*
- * POST to addstudent.
+ * POST to addContact.
  */
-router.post('/addstudent', function(req, res) {
+router.post('/addContact', function(req, res) {
     var db = req.db;
-    var collection = db.get('studentList');
+    var collection = db.get('contactList');
     collection.insert(req.body, function(err, result){
         res.send(
             (err === null) ? { msg: '' } : { msg: err }
@@ -26,13 +26,13 @@ router.post('/addstudent', function(req, res) {
 });
 
 /*
- * DELETE to deletestudent.
+ * DELETE to deleteContact.
  */
-router.delete('/deletestudent/:id', function(req, res) {
+router.delete('/deleteContact/:id', function(req, res) {
     var db = req.db;
-    var studentID = req.params.id;
-    var collection = db.get('studentList');
-    collection.remove({'_id':studentID}, function(err, result){
+    var contactID = req.params.id;
+    var collection = db.get('contactList');
+    collection.remove({'_id':contactID}, function(err, result){
     	res.send((err === null)?{msg:''}:{msg:err});
     });
 });

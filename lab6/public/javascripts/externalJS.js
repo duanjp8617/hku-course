@@ -1,92 +1,88 @@
-// studentList data array for filling in info box
-var studentListData = [];
+// contact data array for filling in info box
+var contactListData = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
 
-    // Populate the user table on initial page load
-    populateTable();
+    // Populate the contact list on initial page load
+    populateContactList();
 
 });
 
 // Functions =============================================================
 
-// Fill table with data
-function populateTable() {
+// Fill contact list with actual data.
+function populateContactList() {
 
     // Empty content string
     var tableContent = '';
 
     // jQuery AJAX call for JSON
-    $.getJSON( '/users/studentList', function( data ) {
-        studentListData = data;
+    $.getJSON( '/users/contactList', function( data ) {
+        contactListData = data;
+        
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowstudent" rel="' + this.name + '">' + this.name + '</a></td>';
-            tableContent += '<td>' + this.email + '</td>';
-            tableContent += '<td><a href="#" class="linkdeletestudent" rel="' + this._id + '">delete</a></td>';
+            tableContent += '<td><a href="#" class="linkShowContact" rel="' + this.name + '">' + this.name + '</a></td>';
+            tableContent += '<td><a href="#" class="linkDeleteContact" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
 
         // Inject the whole content string into our existing HTML table
-        $('#studentList table tbody').html(tableContent);
+        $('#contactList table tbody').html(tableContent);
     });
 };
 
-// Show Student Info
-function showStudentInfo(event) {
+// Show Contact Info
+function showContactInfo(event) {
 
     // Prevent Link from Firing
     event.preventDefault();
 
-    // Retrieve student name from link rel attribute
-    var thisStudentName = $(this).attr('rel');
+    // Retrieve contact name from link rel attribute
+    var thisContactName = $(this).attr('rel');
 
     // Get Index of object based on id value
-    var arrayPosition = studentListData.map(function(arrayItem) { return arrayItem.name; }).indexOf(thisStudentName);
+    var arrayPosition = contactListData.map(function(arrayItem) { return arrayItem.name; }).indexOf(thisContactName);
 
-    // Get our student Object
-    var thisStudentObject = studentListData[arrayPosition];
+    // Get our contact Object
+    var thisContactObject = contactListData[arrayPosition];
 
     //Populate Info Box
-    $('#studentInfoName').text(thisStudentObject.name);
-    $('#studentInfoMajor').text(thisStudentObject.major);
-    $('#studentInfoGender').text(thisStudentObject.gender);
-    $('#studentInfoID').text(thisStudentObject.studentID);
-
+    $('#contactInfoName').text(thisContactObject.name);
+    $('#contactInfoTel').text(thisContactObject.tel);
+    $('#contactInfoEmail').text(thisContactObject.email);
 };
 
- // student name link click
-$('#studentList table tbody').on('click', 'td a.linkshowstudent', showStudentInfo);
+ // contact name link click
+$('#contactList table tbody').on('click', 'td a.linkShowContact', showContactInfo);
 
-// Add Student
-function addStudent(event) {
+// Add contact
+function addContact(event) {
     event.preventDefault();
 
     // Super basic validation - increase errorCount variable if any fields are blank
     var errorCount = 0;
-    $('#addStudent input').each(function(index, val) {
+    $('#addContact input').each(function(index, val) {
         if($(this).val() === '') { errorCount++; }
     });
 
     // Check and make sure errorCount's still at zero
     if(errorCount === 0) {
 
-        // If it is, compile all student information into one object
-        var newStudent = {
-            'name': $('#addStudent fieldset input#inputStudentName').val(),
-            'email': $('#addStudent fieldset input#inputStudentEmail').val(),
-            'major': $('#addStudent fieldset input#inputStudentMajor').val(),
-            'gender': $('#addStudent fieldset input#inputStudentGender').val(),
-            'studentID': $('#addStudent fieldset input#inputStudentID').val(),
+        // If it is, compile all contact information into one object
+        var newContact = {
+            'name': $('#addContact fieldset input#inputContactName').val(),
+            'tel': $('#addContact fieldset input#inputContactTel').val(),
+            'email': $('#addContact fieldset input#inputContactEmail').val()
         }
 
-        // Use AJAX to post the object to our addstudent service
+        // Use AJAX to post the object to our addContact service
         $.ajax({
             type: 'POST',
-            data: newStudent,
-            url: '/users/addstudent',
+            data: newContact,
+            url: '/users/addContact',
             dataType: 'JSON'
         }).done(function( response ) {
 
@@ -94,10 +90,10 @@ function addStudent(event) {
             if (response.msg === '') {
 
                 // Clear the form inputs
-                $('#addStudent fieldset input').val('');
+                $('#addContact fieldset input').val('');
 
                 // Update the table
-                populateTable();
+                populateContactList();
 
             }
             else {
@@ -115,31 +111,31 @@ function addStudent(event) {
     }
 };
 
-// Add Student button click
-$('#btnAddStudent').on('click', addStudent);
+// Add Contact button click
+$('#btnAddContact').on('click', addContact);
 
-// Delete student link click
-$('#studentList table tbody').on('click', 'td a.linkdeletestudent', deleteStudent);
+// Delete contact link click
+$('#contactList table tbody').on('click', 'td a.linkDeleteContact', deleteContact);
 
-// Delete Student
-function deleteStudent(event) {
+// Delete contact
+function deleteContact(event) {
 
     event.preventDefault();
 
     // Pop up a confirmation dialog
-    var confirmation = confirm('Are you sure you want to delete this student?');
+    var confirmation = confirm('Are you sure you want to delete this contact?');
 
-    // Check and make sure the student confirmed
+    // Check and make sure the contact confirmed
     if (confirmation === true) {
 
         // If they did, do our delete
         $.ajax({
             type: 'DELETE',
-            url: '/users/deletestudent/' + $(this).attr('rel')
+            url: '/users/deleteContact/' + $(this).attr('rel')
         }).done(function( response ) {
 
             if(response.msg === ''){
-                populateTable();
+                populateContactList();
             }
             else{
                 alert('Error: ' + response.msg);

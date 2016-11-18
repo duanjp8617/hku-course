@@ -7,47 +7,42 @@ block content
     // Wrapper
     #wrapper
 
-        // STUDENT INFO
-        #studentInfo
-            h2 Student Info
+        // CONTACT INFO
+        #contactInfo
+            h2 Contact Info
             p
                 strong Name:
-                |  <span id='studentInfoName'></span>
+                |  <span id='contactInfoName'></span>
                 br
-                strong Major:
-                |  <span id='studentInfoMajor'></span>
+                strong Telephone:
+                |  <span id='contactInfoTel'></span>
                 br
-                strong Gender:
-                |  <span id='studentInfoGender'></span>
+                strong Email:
+                |  <span id='contactInfoEmail'></span>
                 br
-                strong Student ID:
-                |  <span id='studentInfoID'></span>
-        // /STUDENT INFO
+        // /CONTACT INFO
 
-        // STUDENT LIST
-        h2 Student List
-        #studentList
+        // CONTACT LIST
+        h2 Contact List
+        #contactList
             table
                 thead
-                    th StudentName
-                    th Email
+                    th Name
                     th Delete?
                 tbody
-        // /STUDENT LIST
+        // /CONTACT LIST
 
-        // ADD STUDENT
-        h2 Add Student
-        #addStudent
+        // ADD CONTACT
+        h2 Add Contact
+        #addContact
             fieldset
-                input#inputStudentName(type='text', placeholder='Student Name')
-                input#inputStudentEmail(type='text', placeholder='Email')
+                input#inputContactName(type='text', placeholder='Name')
                 br
-                input#inputStudentMajor(type='text', placeholder='Major')
-                input#inputStudentGender(type='text', placeholder='Gender')
+                input#inputContactTel(type='text', placeholder='Telephone Number')
                 br
-                input#inputStudentID(type='text', placeholder='Student ID')
+                input#inputContactEmail(type='text', placeholder='Email')
                 br
-                button#btnAddStudent Add Student
-        // /ADD STUDENT
+                button#btnAddContact Add Contact
+        // /ADD CONTACT
 
     // /WRAPPER
