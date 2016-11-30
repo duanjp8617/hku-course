@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>iAlbum</title>
+    <link rel="stylesheet" href="/stylesheets/mystyles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  </head>
+  <body ng-app="ialbum" ng-controller="ialbum_controller" ng-init="page_load()">
+    <div id="top-level">
+      <div id="header">
+        <h1>iAlbum</h1>
+        <h3 ng-show="show_input_box">username</h3>
+        <input type="text" ng-show="show_input_box"></input>
+        <h3 ng-show="show_input_box">password</h3>
+        <input type="text" ng-show="show_input_box"></input>
+        <h3 ng-hide="show_input_box">Hello {{current_user.username}}!</h3>
+        <button>{{log_button_string}}</button>
+      </div>
+
+      <div id="album_list">
+        <ul>
+          <li ng-hide="show_input_box">
+            <h3 ng-click="show_current_user_albums()">My Album</h3>
+          </li>
+
+          <li ng-repeat="friend_album in friend_albums">
+            <h3 ng-click="show_friend_album(friend_album)">{{friend_album.name}}'s Album</h3>
+          </li>
+        </ul>
+      </div>
+
+      <div id="photo_display">
+      </div>
+    </div>
+  </body>
+</html>
