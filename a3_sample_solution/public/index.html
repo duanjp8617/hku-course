@@ -4,32 +4,56 @@
     <title>iAlbum</title>
     <link rel="stylesheet" href="/stylesheets/mystyles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="/javascripts/myscripts.js"></script>
   </head>
-  <body ng-app="ialbum" ng-controller="ialbum_controller" ng-init="page_load()">
-    <div id="top-level">
+  <body ng-app="ialbum" ng-controller="ialbumController" ng-init="pageLoad()">
+    <div id="topLevel">
       <div id="header">
-        <h1>iAlbum</h1>
-        <h3 ng-show="show_input_box">username</h3>
-        <input type="text" ng-show="show_input_box"></input>
-        <h3 ng-show="show_input_box">password</h3>
-        <input type="text" ng-show="show_input_box"></input>
-        <h3 ng-hide="show_input_box">Hello {{current_user.username}}!</h3>
-        <button>{{log_button_string}}</button>
+        <h1>{{loginErrorMsg}}</h1>
+        <h3 ng-show="notLogin">username</h3>
+        <input type="text" ng-show="notLogin" ng-model="userInput.username"></input>
+        <h3 ng-show="notLogin">password</h3>
+        <input type="text" ng-show="notLogin" ng-model="userInput.password"></input>
+        <h3 ng-hide="notLogin">Hello {{currentUser.username}}!</h3>
+        <button ng-click="handleLoginLogout()">{{logButtonString}}</button>
       </div>
 
-      <div id="album_list">
+      <div id="nameList">
         <ul>
-          <li ng-hide="show_input_box">
-            <h3 ng-click="show_current_user_albums()">My Album</h3>
+          <li ng-hide="noCurrentUser">
+            <h3 ng-click="showCurrentUserAlbums()">My Album</h3>
           </li>
 
-          <li ng-repeat="friend_album in friend_albums">
-            <h3 ng-click="show_friend_album(friend_album)">{{friend_album.name}}'s Album</h3>
+          <li ng-repeat="friend in friends">
+            <h3 ng-click="showFriendAlbums(friend)">{{friend.username}}'s Album</h3>
           </li>
         </ul>
       </div>
 
-      <div id="photo_display">
+      <div id="albumDisplay">
+        <div id="bigAlbum" ng-show="showBigAlbum">
+          <img src="/images/x.jpg" ng-click="goToSmallAlbums()"></img>
+          <img ng-src="/{{albumBeingDisplayed.url}}"></img>
+          <h3>{{albumBeingDisplayed.friendListString}} liked this Albums!</h3>
+          <button ng-show="isCurrentUser" ng-click="deleteAlbum(albumBeingDisplayed)">Delete</button>
+          <button ng-hide="isCurrentUser" ng-click="likeAlbum(albumBeingDisplayed)">Like</button>
+        </div>
+
+        <div id="smallAlbums" ng-hide="showBigAlbum">
+          <div id="smallAlbumBlock" ng-repeat="album in userAlbums">
+            <img ng-src="/{{album.url}}"></img>
+            <h3>{{album.friendListString}} liked this Albums!</h3>
+            <button ng-show="isCurrentUser" ng-click="deleteAlbum(album)">Delete</button>
+            <button ng-hide="isCurrentUser" ng-click="likeAlbum(album)">Like</button>
+          </div>
+        </div>
+
+        <div id="fileSelection" ng-show="(!showBigAlbum)&&(isCurrentUser)">
+          <button ng-click="chooseFile()"></button>
+          <h3>{{imgFileName}}</h3>
+          <button ng-click="uploadFile()"></button>
+        </div>
+
       </div>
     </div>
   </body>

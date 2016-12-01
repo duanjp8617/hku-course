@@ -4,7 +4,7 @@ var router = express.Router();
 router.get('/init', function(req, res) {
   if(req.cookies.userID){
     var db = req.db;
-    var user_list_colllection = db.get("userList");
+    var user_list_collection = db.get("userList");
     var friend_list = [];
 
     // first find out the user with userID specified in the cookie
@@ -17,17 +17,17 @@ router.get('/init', function(req, res) {
         // all the users from the collection.
         user_list_collection.find({}, {}, function(error, users){
           if(error === null){
-            res.send("");
-          }
-          else{
-            for(var user in users){
-              if(friend_name_list.indexOf(user.username)!=-1){
+            for(var index in users){
+              if(friend_name_list.indexOf(users[index].username)!=-1){
                 // the user.username is present in the friend_name_list,
                 // we should put user into friend_list
-                friend_list.push({'username':user.username, '_id':user._id});
+                friend_list.push({'username':users[index].username, '_id':users[index]._id});
               }
             }
             res.json({'the_user':{'username':the_user[0].username, '_id':the_user[0]._id}, 'friend_list':friend_list});
+          }
+          else{
+            res.send("");
           }
         });
       }
@@ -38,18 +38,17 @@ router.get('/init', function(req, res) {
     });
   }
   else{
-    req.send("");
+    res.send("");
   }
 });
 
 router.post('/login', function(req, res) {
-  // call the bodyParser to parse the key value pair
-  bodyParser.urlencoded({ extended: false });
+
   var db = req.db;
-  var user_list_colllection = db.get("userList");
+  var user_list_collection = db.get("userList");
 
   user_list_collection.find({'username':req.body.username}, {}, function(error, login_user){
-    if(login_user.length>0)&&(login_user[0].password==req.body.password){
+    if((login_user.length>0)&&(login_user[0].password==req.body.password)){
       // the username and password parameter matches that stored in the database
       // we should set up the cookie for the user
       var milliseconds = 60 * 1000;
@@ -58,19 +57,22 @@ router.post('/login', function(req, res) {
       // continue to get the friend list for this user
       var friend_list = [];
 
+      var user_list_collection = req.db.get("userList");
+
       user_list_collection.find({}, {}, function(error, users){
         if(error === null){
-          for(var user in users){
-            if(login_user.friends.indexOf(login_user.username)!=-1){
+          for(var index in users){
+            if(login_user[0].friends.indexOf(users[index].username)!=-1){
               // the user.username is present in the friend_name_list,
               // we should put user into friend_list
-              friend_list.push(user);
+              friend_list.push({'username':users[index].username, '_id':users[index]._id});
             }
           }
-          res.json(friend_list);
+          res.json({'the_user':{'username':login_user[0].username, '_id':login_user[0]._id}, 'friend_list':friend_list});
         }
         else{
-          res.send("Login succeed, but fail to query friend list.");
+          res.clearCookie('userID');
+          res.send("Login failure");
         }
       });
     }
@@ -86,67 +88,25 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/getalbum/:userid', function(req, res) {
-  var friend_id = req.param.userid;
+  var id = req.params.userid;
   var db = req.db;
   var photo_list_collection = db.get("photoList");
 
-  if(friend_id != "0"){
-    photo_list_collection.find({'userid':friend_id}, "-userid", function(error, docs){
-      if(error === null){
-        res.json(docs);
-      }
-      else{
-        res.send({msg:error});
-      }
-    });
+  if(id == "0"){
+    id = req.cookies.userID;
   }
-  else{
-    var user_list_collection = db.get("userList");
-    var current_user_id = req.cookies.userID;
 
-    user_list_collection.find({'_id':current_user_id}, {}, function(error, current_user){
-      if(error === null){
-        var friend_name_list = current_user[0].friends;
-        var friend_id_list = [];
-        var return_list = [];
-
-        user_list_collection.find({}, {}, function(error, users){
-          if(error === null){
-
-            for(var user in users){
-              if(friend_name_list.indexOf(user.username)!=-1){
-                // the user.username is present in the friend_name_list,
-                // we should put user into friend_list
-                friend_id_list.push(user._id);
-              }
-            }
-
-            photo_list_collection.find({}, {}, function(error, photos){
-              if(error === null){
-                for(var photo in photos){
-                  if(friend_id_list.indexOf(photo.userid)!=-1){
-                    return_list.push({'_id':photo._id, 'url':photo.url, 'likedby':photo.likedby});
-                  }
-                }
-
-                res.json(return_list);
-              }
-              else{
-                res.send({msg:error});
-              }
-            });
-          }
-          else{
-            res.send({msg:error});
-          }
-        });
-
-      }
-    });
-  }
+  photo_list_collection.find({'userid':id}, {}, function(error, docs){
+    if(error === null){
+      res.json(docs);
+    }
+    else{
+      res.send("error");
+    }
+  });
 });
 
-router.post('/uploadphoto', function(req, res) {
+/*router.post('/uploadphoto', function(req, res) {
   var fs = require('fs');
 
   function getRandomInt(min, max) {
@@ -231,6 +191,6 @@ router.put('/updatelike/:photoid', function(req, res) {
       res.send({msg:error});
     }
   });
-});
+});*/
 
 module.exports = router;
