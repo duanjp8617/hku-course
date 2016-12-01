@@ -12,13 +12,15 @@ ialbum_app.controller('ialbumController', function($scope, $http){
 
   $scope.currentUser = {'username':'', '_id':''};
 
+  $scope.selectedUserId = '-1';
+
   $scope.friends = [];
 
   $scope.showBigAlbum = false;
 
   $scope.userAlbums = [];
 
-  $scope.albumBeingDisplayed = {'_id':'', 'url':'', 'friendListString':''};
+  $scope.albumBeingDisplayed = {'_id':'', 'url':'', 'friendListString':'', 'likedby':[]};
 
   $scope.isCurrentUser = false;
 
@@ -39,7 +41,7 @@ ialbum_app.controller('ialbumController', function($scope, $http){
 
         $scope.noCurrentUser = false;
         $scope.currentUser.username = response.data.the_user.username;
-        $scope.currentUser._id = response.data.the_user._id;
+        $scope.currentUser._id = '0';
         $scope.friends = response.data.friend_list;
 
         $scope.userAlbums = [];
@@ -75,8 +77,8 @@ ialbum_app.controller('ialbumController', function($scope, $http){
             $scope.logButtonString = "log out";
 
             $scope.noCurrentUser = false;
-            $scope.currentUser.username = response.data.the_user.username;
-            $scope.currentUser._id = response.data.the_user._id;
+            $scope.currentUser.username = $scope.userInput.username;
+            $scope.currentUser._id = '0';
             $scope.friends = response.data.friend_list;
 
             $scope.userAlbums = [];
@@ -98,6 +100,8 @@ ialbum_app.controller('ialbumController', function($scope, $http){
         $scope.userAlbums = [];
         $scope.isCurrentUser=false;
 
+        $scope.showBigAlbum = false;
+
         $scope.userInput.username = "";
         $scope.userInput.password = "";
       }, function(response){
@@ -106,30 +110,22 @@ ialbum_app.controller('ialbumController', function($scope, $http){
     }
   }
 
-  $scope.showCurrentUserAlbums = function(){
-    $scope.isCurrentUser = true;
+  $scope.showUserAlbums = function(user){
+    if(user._id == '0'){
+      $scope.isCurrentUser = true;
+    }
+    else{
+      $scope.isCurrentUser = false;
+    }
     $scope.showBigAlbum = false;
+    $scope.selectedUserId = user._id;
 
-    $http.get("/getalbum/0").then(function(response){
+    $http.get("/getalbum/"+user._id).then(function(response){
       $scope.userAlbums = [];
       for(var index in response.data){
         var album = response.data[index];
-        $scope.userAlbums.push({'_id':album._id, 'url':album.url, 'friendListString':album.likedby.join(', ')});
-      }
-    }, function(response){
-      alert("Error getting albums for current user.");
-    });
-  };
-
-  $scope.showFriendAlbums = function(friend){
-    $scope.isCurrentUser = false;
-    $scope.showBigAlbum = false;
-
-    $http.get("/getalbum/"+friend._id).then(function(response){
-      $scope.userAlbums = [];
-      for(var index in response.data){
-        var album = response.data[index];
-        $scope.userAlbums.push({'_id':album._id, 'url':album.url, 'friendListString':album.likedby.join(', ')});
+        var displayString = (album.likedby.length == 0) ? "" : (album.likedby.join(', ')+" liked this photo!");
+        $scope.userAlbums.push({'_id':album._id, 'url':album.url, 'likedby':album.likedby,'friendListString':displayString});
       }
     }, function(response){
       alert("Error getting albums for current user.");
@@ -137,18 +133,57 @@ ialbum_app.controller('ialbumController', function($scope, $http){
   };
 
   $scope.deleteAlbum = function(album){
+    var confirmation = confirm('Are you sure you want to delete this album?');
+    if(confirmation == true){
+      $http.delete('/deletephoto/'+album._id).then(function(response){
+        var splice_index = 0;
+        for(var index in $scope.userAlbums){
+          if($scope.userAlbums[index]._id == album._id){
+            splice_index = index;
+          }
+        }
 
+        $scope.userAlbums.splice(splice_index, 1);
+
+        if($scope.showBigAlbum == true){
+          $scope.goToSmallAlbums();
+        }
+
+      }, function(response){
+        alert("Error deleting albums.");
+      });
+    }
   };
 
   $scope.likeAlbum = function(album){
-
+    if(album.likedby.indexOf($scope.currentUser.username)==-1){
+      $http.put('/updatelike/'+album._id).then(function(response){
+        album.friendListString = response.data.join(', ')+" liked this photo!";
+        album.likedby = response.data;
+      }, function(response){
+        alert("Error like album.");
+      });
+    }
   };
 
-  $scope.chooseFile = function(){
+  $scope.uploadFile = function(){
 
+    var f = document.getElementById('imgFile').files[0];
+
+    $http({url:"/uploadphoto", method: "POST", data: f, headers: {'Content-Type': undefined}}).then(function(response){
+      $scope.userAlbums.push({'_id':response.data._id, 'url':response.data.url, 'likedby':[], 'friendListString':""});
+    }, function(response){
+      alert("Error uploading file.")
+    });
   };
 
-  $scope.likeFile = function(){
+  $scope.goToBigAlbum = function(album){
+    $scope.showBigAlbum = true;
+    $scope.albumBeingDisplayed = album;
+  }
 
-  };
+  $scope.goToSmallAlbums = function(){
+    $scope.showBigAlbum = false;
+    $scope.albumBeingDisplayed = {'_id':'', 'url':'', 'friendListString':'', 'likeby':[]};
+  }
 });

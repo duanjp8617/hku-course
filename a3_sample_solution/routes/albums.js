@@ -24,16 +24,16 @@ router.get('/init', function(req, res) {
                 friend_list.push({'username':users[index].username, '_id':users[index]._id});
               }
             }
-            res.json({'the_user':{'username':the_user[0].username, '_id':the_user[0]._id}, 'friend_list':friend_list});
+            res.json({'the_user':{'username':the_user[0].username}, 'friend_list':friend_list});
           }
           else{
-            res.send("");
+            res.send("Database operation failure.");
           }
         });
       }
       else{
         // an query error happens
-        res.send("");
+        res.send("Database operation failure");
       }
     });
   }
@@ -48,36 +48,41 @@ router.post('/login', function(req, res) {
   var user_list_collection = db.get("userList");
 
   user_list_collection.find({'username':req.body.username}, {}, function(error, login_user){
-    if((login_user.length>0)&&(login_user[0].password==req.body.password)){
-      // the username and password parameter matches that stored in the database
-      // we should set up the cookie for the user
-      var milliseconds = 60 * 1000;
-      res.cookie('userID', login_user[0]._id, { maxAge: milliseconds });
+    if(error === null){
+      if((login_user.length>0)&&(login_user[0].password==req.body.password)){
+        // the username and password parameter matches that stored in the database
+        // we should set up the cookie for the user
+        var milliseconds = 60 * 1000;
+        res.cookie('userID', login_user[0]._id, { maxAge: milliseconds });
 
-      // continue to get the friend list for this user
-      var friend_list = [];
+        // continue to get the friend list for this user
+        var friend_list = [];
 
-      var user_list_collection = req.db.get("userList");
+        var user_list_collection = req.db.get("userList");
 
-      user_list_collection.find({}, {}, function(error, users){
-        if(error === null){
-          for(var index in users){
-            if(login_user[0].friends.indexOf(users[index].username)!=-1){
-              // the user.username is present in the friend_name_list,
-              // we should put user into friend_list
-              friend_list.push({'username':users[index].username, '_id':users[index]._id});
+        user_list_collection.find({}, {}, function(error, users){
+          if(error === null){
+            for(var index in users){
+              if(login_user[0].friends.indexOf(users[index].username)!=-1){
+                // the user.username is present in the friend_name_list,
+                // we should put user into friend_list
+                friend_list.push({'username':users[index].username, '_id':users[index]._id});
+              }
             }
+            res.json({'friend_list':friend_list});
           }
-          res.json({'the_user':{'username':login_user[0].username, '_id':login_user[0]._id}, 'friend_list':friend_list});
-        }
-        else{
-          res.clearCookie('userID');
-          res.send("Login failure");
-        }
-      });
+          else{
+            res.clearCookie('userID');
+            res.send("Database operation failure");
+          }
+        });
+      }
+      else{
+        res.send("Login failure");
+      }
     }
     else{
-      res.send("Login failure");
+      res.send("Database operation failure");
     }
   });
 });
@@ -101,12 +106,15 @@ router.get('/getalbum/:userid', function(req, res) {
       res.json(docs);
     }
     else{
-      res.send("error");
+      res.send("Database operation failure");
     }
   });
 });
 
-/*router.post('/uploadphoto', function(req, res) {
+router.post('/uploadphoto', function(req, res) {
+  //var obj = req.body.imgData;
+  //var arr = Object.keys(obj).map(function (key) { return obj[key]; });
+  //res.send(arr.length.toString());
   var fs = require('fs');
 
   function getRandomInt(min, max) {
@@ -115,8 +123,6 @@ router.get('/getalbum/:userid', function(req, res) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  // the image_content could be treated as a large string...
-  var image_content = req.body;
   var random_num_str = getRandomInt(10000000, 90000000).toString();
   var path = "./public/uploads/"+random_num_str+".jpg";
   req.pipe(fs.createWriteStream(path));
@@ -124,15 +130,14 @@ router.get('/getalbum/:userid', function(req, res) {
   var db = req.db;
   var photo_list_collection = db.get("photoList");
 
-  photo_list_collection.insert({'url':'uploads/'+random_num_str, 'userid':req.cookies.userID, 'likedby':[]}, function(error, result){
+  photo_list_collection.insert({'url':'uploads/'+random_num_str+".jpg", 'userid':req.cookies.userID, 'likedby':[]}, function(error, result){
     res.send(
-        (error === null) ? { msg: '' } : { msg: error }
+        (error === null) ? {'_id':result._id, 'url':result.url} : "Database operation failure"
     );
   })
 });
 
 router.delete('/deletephoto/:photoid', function(req, res) {
-  var fs = require('fs');
 
   var db = req.db;
   var photo_list_collection = db.get("photoList");
@@ -141,20 +146,27 @@ router.delete('/deletephoto/:photoid', function(req, res) {
   photo_list_collection.find({'_id':photo_id}, {}, function(error, result){
     if(error === null){
       var photo_name = result[0].url.substring(8);
-      photo_list_colleciton.remove({'_id':photo_id}, function(error, result){
+      photo_list_collection.remove({'_id':photo_id}, function(error, result){
         if(error === null){
           // continue to remove the file from the disk
           var file_path = "./public/uploads/"+photo_name;
-          fs.unlinkSync(file_path);
-          res.send("");
+          var fs = require('fs');
+          fs.unlink(file_path,function(err){
+            if(err){
+              res.send("Error deleting album file.");
+            }
+            else{
+              res.send("");
+            }
+          });
         }
         else{
-          res.send({msg:error});
+          res.send("Database operation failure");
         }
       });
     }
     else{
-      res.send({msg:error});
+      res.send("Database operation failure");
     }
   });
 });
@@ -169,28 +181,28 @@ router.put('/updatelike/:photoid', function(req, res) {
       var like_list = the_photo[0].likedby;
       var user_list_collection = db.get("userList");
 
-      user_list_colection.find({'_id'.req.cookies.userID}, {}, function(error, the_user){
+      user_list_collection.find({'_id':req.cookies.userID}, {}, function(error, the_user){
         if(error === null){
           var user_name = the_user[0].username;
-          like_list.push_back(user_name);
-          photo_list_colleciton.update({'_id':photo_id}, {'likedby':like_list}, function(error, result){
+          like_list.push(user_name);
+          photo_list_collection.update({'_id':photo_id}, {'url':the_photo[0].url, 'likedby':like_list, 'userid':the_photo[0].userid}, function(error, result){
             if(error === null){
-              res.send("")''
+              res.send(like_list);
             }
             else{
-              res.send({msg:error});
+              res.send("Database operation failure");
             }
-          })
+          });
         }
         else{
-          res.send({msg:error});
+          res.send("Database operation failure");
         }
       })
     }
     else{
-      res.send({msg:error});
+      res.send("Database operation failure");
     }
   });
-});*/
+});
 
 module.exports = router;
