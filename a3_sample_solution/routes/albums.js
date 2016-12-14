@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
+var bodyParser = require('body-parser');
+var fs = require('fs');
+  
 router.get('/init', function(req, res) {
   if(req.cookies.userID){
     var db = req.db;
@@ -13,8 +15,8 @@ router.get('/init', function(req, res) {
         var friend_name_list = the_user[0].friends;
 
         // the friend_name_list is an array containing all the friend names
-        // of the current user. Now we made a query to get
-        // all the users from the collection.
+        // of the current user. Now we make a query to get
+        // all the users from the collection
         user_list_collection.find({}, {}, function(error, users){
           if(error === null){
             for(var index in users){
@@ -24,16 +26,16 @@ router.get('/init', function(req, res) {
                 friend_list.push({'username':users[index].username, '_id':users[index]._id});
               }
             }
-            res.json({'the_user':{'username':the_user[0].username}, 'friend_list':friend_list});
+            res.json({'the_user':the_user[0].username, 'friend_list':friend_list});
           }
           else{
-            res.send("Database operation failure.");
+            res.send(error);
           }
         });
       }
       else{
-        // an query error happens
-        res.send("Database operation failure");
+        // a query error happens
+        res.send(error);
       }
     });
   }
@@ -42,23 +44,21 @@ router.get('/init', function(req, res) {
   }
 });
 
-router.post('/login', function(req, res) {
+router.post('/login', bodyParser.json(), function(req, res) {
 
   var db = req.db;
   var user_list_collection = db.get("userList");
-
+  
   user_list_collection.find({'username':req.body.username}, {}, function(error, login_user){
     if(error === null){
       if((login_user.length>0)&&(login_user[0].password==req.body.password)){
-        // the username and password parameter matches that stored in the database
+        // the username and password match those stored in the database
         // we should set up the cookie for the user
-        var milliseconds = 60 * 1000;
+        var milliseconds = 3600 * 1000;
         res.cookie('userID', login_user[0]._id, { maxAge: milliseconds });
 
         // continue to get the friend list for this user
         var friend_list = [];
-
-        var user_list_collection = req.db.get("userList");
 
         user_list_collection.find({}, {}, function(error, users){
           if(error === null){
@@ -73,7 +73,7 @@ router.post('/login', function(req, res) {
           }
           else{
             res.clearCookie('userID');
-            res.send("Database operation failure");
+            res.send(error);
           }
         });
       }
@@ -82,7 +82,7 @@ router.post('/login', function(req, res) {
       }
     }
     else{
-      res.send("Database operation failure");
+      res.send(error);
     }
   });
 });
@@ -103,19 +103,21 @@ router.get('/getalbum/:userid', function(req, res) {
 
   photo_list_collection.find({'userid':id}, {}, function(error, docs){
     if(error === null){
-      res.json(docs);
+		
+		var photo_list=[];
+        for(var index in docs){			
+          photo_list.push({'_id':docs[index]._id, 'url':docs[index].url, 'likedby':docs[index].likedby});          
+        }
+		
+        res.json({'photo_list':photo_list});
     }
     else{
-      res.send("Database operation failure");
+        res.send(error);
     }
   });
 });
 
 router.post('/uploadphoto', function(req, res) {
-  //var obj = req.body.imgData;
-  //var arr = Object.keys(obj).map(function (key) { return obj[key]; });
-  //res.send(arr.length.toString());
-  var fs = require('fs');
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -131,9 +133,10 @@ router.post('/uploadphoto', function(req, res) {
   var photo_list_collection = db.get("photoList");
 
   photo_list_collection.insert({'url':'uploads/'+random_num_str+".jpg", 'userid':req.cookies.userID, 'likedby':[]}, function(error, result){
-    res.send(
-        (error === null) ? {'_id':result._id, 'url':result.url} : "Database operation failure"
-    );
+    if (error === null)
+		res.json({'_id':result._id, 'url':result.url}); 
+	else 
+		res.send(error);
   })
 });
 
@@ -145,15 +148,14 @@ router.delete('/deletephoto/:photoid', function(req, res) {
 
   photo_list_collection.find({'_id':photo_id}, {}, function(error, result){
     if(error === null){
-      var photo_name = result[0].url.substring(8);
+      var photo_name = result[0].url;
       photo_list_collection.remove({'_id':photo_id}, function(error, result){
         if(error === null){
           // continue to remove the file from the disk
-          var file_path = "./public/uploads/"+photo_name;
-          var fs = require('fs');
+          var file_path = "./public/"+photo_name;
           fs.unlink(file_path,function(err){
             if(err){
-              res.send("Error deleting album file.");
+              res.send(err);
             }
             else{
               res.send("");
@@ -161,12 +163,12 @@ router.delete('/deletephoto/:photoid', function(req, res) {
           });
         }
         else{
-          res.send("Database operation failure");
+          res.send(error);
         }
       });
     }
     else{
-      res.send("Database operation failure");
+      res.send(error);
     }
   });
 });
@@ -185,22 +187,22 @@ router.put('/updatelike/:photoid', function(req, res) {
         if(error === null){
           var user_name = the_user[0].username;
           like_list.push(user_name);
-          photo_list_collection.update({'_id':photo_id}, {'url':the_photo[0].url, 'likedby':like_list, 'userid':the_photo[0].userid}, function(error, result){
+          photo_list_collection.update({'_id':photo_id}, {'url':the_photo[0].url, 'userid':the_photo[0].userid, 'likedby':like_list}, function(error, result){
             if(error === null){
-              res.send(like_list);
+              res.send({'like_list':like_list});
             }
             else{
-              res.send("Database operation failure");
+              res.send(error);
             }
           });
         }
         else{
-          res.send("Database operation failure");
+          res.send(error);
         }
       })
     }
     else{
-      res.send("Database operation failure");
+      res.send(error);
     }
   });
 });

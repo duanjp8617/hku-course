@@ -21,36 +21,35 @@
       <div id="nameList">
         <ul>
           <li ng-hide="noCurrentUser">
-            <h3 ng-click="showUserAlbums(currentUser)" ng-class="{selected: currentUser._id === selectedUserId}">My Album</h3>
+            <h3 ng-click="showUserPhotos(currentUser)" ng-class="{selected: currentUser._id === selectedUserId}">My Album</h3>
           </li>
 
           <li ng-repeat="friend in friends">
-            <h3 ng-click="showUserAlbums(friend)" ng-class="{selected: friend._id === selectedUserId}">{{friend.username}}'s Album</h3>
+            <h3 ng-click="showUserPhotos(friend)" ng-class="{selected: friend._id === selectedUserId}">{{friend.username}}'s Album</h3>
           </li>
         </ul>
       </div>
 
       <div id="albumDisplay">
-        <div id="bigAlbum" ng-show="showBigAlbum">
-          <img src="/images/x.jpg" ng-click="goToSmallAlbums()"></img>
-          <img ng-src="/{{albumBeingDisplayed.url}}"></img>
-          <h3>{{albumBeingDisplayed.friendListString}}</h3>
-          <button ng-show="isCurrentUser" ng-click="deleteAlbum(albumBeingDisplayed)">Delete</button>
-          <button ng-hide="isCurrentUser" ng-click="likeAlbum(albumBeingDisplayed)">Like</button>
+        <div id="bigPhoto" ng-show="showBigPhoto">
+          <img src="/images/x.jpg" ng-click="goToSmallPhotos()"></img>
+          <img ng-src="{{photoBeingDisplayed.url}}"></img>
+          <h3>{{photoBeingDisplayed.friendListString}}</h3>
+          <button ng-show="isCurrentUser" ng-click="deletePhoto(photoBeingDisplayed)">Delete</button>
+          <button ng-hide="isCurrentUser" ng-click="likePhoto(photoBeingDisplayed)">Like</button>
         </div>
 
-        <div id="smallAlbums" ng-hide="showBigAlbum">
-          <div id="smallAlbumBlock" ng-repeat="album in userAlbums">
-            <img ng-src="/{{album.url}}" ng-click="goToBigAlbum(album)"></img>
-            <h3>{{album.friendListString}}</h3>
-            <button ng-show="isCurrentUser" ng-click="deleteAlbum(album)">Delete</button>
-            <button ng-hide="isCurrentUser" ng-click="likeAlbum(album)">Like</button>
+        <div id="smallPhotos" ng-hide="showBigPhoto">
+          <div id="smallPhotoBlock" ng-repeat="photo in userPhotos">
+            <img ng-src="{{photo.url}}" ng-click="goToBigPhoto(photo)"></img>
+            <h3>{{photo.friendListString}}</h3>
+            <button ng-show="isCurrentUser" ng-click="deletePhoto(photo)">Delete</button>
+            <button ng-hide="isCurrentUser" ng-click="likePhoto(photo)">Like</button>
           </div>
         </div>
 
-        <div id="fileSelection" ng-show="(!showBigAlbum)&&(isCurrentUser)">
+        <div id="fileSelection" ng-show="(!showBigPhoto)&&(isCurrentUser)">
           <input type="file" id="imgFile"/>
-          <h3>{{imgFileName}}</h3>
           <button ng-click="uploadFile()">Upload Photo</button>
         </div>
 
