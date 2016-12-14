@@ -20,12 +20,12 @@
 
       <div id="nameList">
         <ul>
-          <li ng-hide="noCurrentUser">
-            <h3 ng-click="showUserPhotos(currentUser)" ng-class="{selected: currentUser._id === selectedUserId}">My Album</h3>
+          <li ng-hide="notLogin">
+            <h3 ng-click="showUserPhotos(currentUser)" class="{{(currentUser._id === selectedUser._id)?'selected':''}}" id="{{currentUser._id}}">My Album</h3>
           </li>
 
           <li ng-repeat="friend in friends">
-            <h3 ng-click="showUserPhotos(friend)" ng-class="{selected: friend._id === selectedUserId}">{{friend.username}}'s Album</h3>
+            <h3 ng-click="showUserPhotos(friend)" class="{{(friend._id === selectedUser._id)?'selected':''}}" id="{{friend._id}}">{{friend.username}}'s Album</h3>
           </li>
         </ul>
       </div>
@@ -33,7 +33,7 @@
       <div id="albumDisplay">
         <div id="bigPhoto" ng-show="showBigPhoto">
           <img src="/images/x.jpg" ng-click="goToSmallPhotos()"></img>
-          <img ng-src="{{photoBeingDisplayed.url}}"></img>
+          <img src="{{photoBeingDisplayed.url}}" id="{{photoBeingDisplayed._id}}"></img>
           <h3>{{photoBeingDisplayed.friendListString}}</h3>
           <button ng-show="isCurrentUser" ng-click="deletePhoto(photoBeingDisplayed)">Delete</button>
           <button ng-hide="isCurrentUser" ng-click="likePhoto(photoBeingDisplayed)">Like</button>
@@ -41,7 +41,7 @@
 
         <div id="smallPhotos" ng-hide="showBigPhoto">
           <div id="smallPhotoBlock" ng-repeat="photo in userPhotos">
-            <img ng-src="{{photo.url}}" ng-click="goToBigPhoto(photo)"></img>
+            <img src="{{photo.url}}" ng-click="goToBigPhoto(photo)" id="{{photo._id}}"></img>
             <h3>{{photo.friendListString}}</h3>
             <button ng-show="isCurrentUser" ng-click="deletePhoto(photo)">Delete</button>
             <button ng-hide="isCurrentUser" ng-click="likePhoto(photo)">Like</button>
