@@ -18,41 +18,44 @@
         <button ng-click="handleLoginLogout()">{{logButtonString}}</button>
       </div>
 
-      <div id="nameList">
-        <ul>
-          <li ng-hide="notLogin">
-            <h3 ng-click="showUserPhotos(currentUser)" class="{{(currentUser._id === selectedUser._id)?'selected':''}}" id="{{currentUser._id}}">My Album</h3>
-          </li>
+      <div id="content">
+        <div id="nameList">
+          <ul>
+            <li ng-hide="notLogin">
+              <h3 ng-click="showUserPhotos(currentUser)" class="{{(currentUser._id === selectedUser._id)?'selected':''}}" id="{{currentUser._id}}">My Album</h3>
+            </li>
 
-          <li ng-repeat="friend in friends">
-            <h3 ng-click="showUserPhotos(friend)" class="{{(friend._id === selectedUser._id)?'selected':''}}" id="{{friend._id}}">{{friend.username}}'s Album</h3>
-          </li>
-        </ul>
-      </div>
-
-      <div id="albumDisplay">
-        <div id="bigPhoto" ng-show="showBigPhoto">
-          <img src="/images/x.jpg" ng-click="goToSmallPhotos()"></img>
-          <img src="{{photoBeingDisplayed.url}}" id="{{photoBeingDisplayed._id}}"></img>
-          <h3>{{photoBeingDisplayed.friendListString}}</h3>
-          <button ng-show="isCurrentUser" ng-click="deletePhoto(photoBeingDisplayed)">Delete</button>
-          <button ng-hide="isCurrentUser" ng-click="likePhoto(photoBeingDisplayed)">Like</button>
+            <li ng-repeat="friend in friends">
+              <h3 ng-click="showUserPhotos(friend)" class="{{(friend._id === selectedUser._id)?'selected':''}}" id="{{friend._id}}">{{friend.username}}'s Album</h3>
+            </li>
+          </ul>
         </div>
 
-        <div id="smallPhotos" ng-hide="showBigPhoto">
-          <div id="smallPhotoBlock" ng-repeat="photo in userPhotos">
-            <img src="{{photo.url}}" ng-click="goToBigPhoto(photo)" id="{{photo._id}}"></img>
-            <h3>{{photo.friendListString}}</h3>
-            <button ng-show="isCurrentUser" ng-click="deletePhoto(photo)">Delete</button>
-            <button ng-hide="isCurrentUser" ng-click="likePhoto(photo)">Like</button>
+        <div id="albumDisplay">
+          <div id="bigPhoto" ng-show="showBigPhoto">
+            <img id="backCross" src="/images/x.jpg" ng-click="goToSmallPhotos()"></img>
+            <img class="largePhoto" src="{{photoBeingDisplayed.url}}" id="{{photoBeingDisplayed._id}}"></img>
+            <h3>{{photoBeingDisplayed.friendListString}}</h3>
+            <button ng-show="isCurrentUser" ng-click="deletePhoto(photoBeingDisplayed)">Delete</button>
+            <button ng-hide="isCurrentUser" ng-click="likePhoto(photoBeingDisplayed)">Like</button>
           </div>
-        </div>
 
-        <div id="fileSelection" ng-show="(!showBigPhoto)&&(isCurrentUser)">
-          <input type="file" id="imgFile"/>
-          <button ng-click="uploadFile()">Upload Photo</button>
-        </div>
+          <div id="smallPhotos" ng-hide="showBigPhoto">
+            <div class="smallPhotoBlock" ng-repeat="photo in userPhotos">
+              <img src="{{photo.url}}" ng-click="goToBigPhoto(photo)" id="{{photo._id}}"></img>
+              <h3>{{photo.friendListString}}</h3>
+              <button ng-show="isCurrentUser" ng-click="deletePhoto(photo)">Delete</button>
+              <button ng-hide="isCurrentUser" ng-click="likePhoto(photo)">Like</button>
+            </div>
+          </div>
 
+          <div id="fileSelection" ng-show="(!showBigPhoto)&&(isCurrentUser)">
+            <div id="fillUp"></div>
+            <input type="file" id="imgFile"/>
+            <button ng-click="uploadFile()">Upload Photo</button>
+          </div>
+
+        </div>
       </div>
     </div>
   </body>
