@@ -64,7 +64,7 @@ router.post('/login', bodyParser.json(), function(req, res) {
           if(error === null){
             for(var index in users){
               if(login_user[0].friends.indexOf(users[index].username)!=-1){
-                // the user.username is present in the friend_name_list,
+                // the user.username is present in the friends array,
                 // we should put user into friend_list
                 friend_list.push({'username':users[index].username, '_id':users[index]._id});
               }
@@ -104,7 +104,7 @@ router.get('/getalbum/:userid', function(req, res) {
   // find out all the photos whose userid equals to id variable
   photo_list_collection.find({'userid':id}, {}, function(error, docs){
     if(error === null){
-      // encode all the photos in the photo_list and send a proper json message back.
+      // put all the photos in the photo_list and send a json message back.
 	    var photo_list=[];
       for(var index in docs){
         photo_list.push({'_id':docs[index]._id, 'url':docs[index].url, 'likedby':docs[index].likedby});
@@ -188,16 +188,16 @@ router.put('/updatelike/:photoid', function(req, res) {
   var photo_list_collection = db.get("photoList");
   var photo_id = req.params.photoid;
 
-  // findout the photo being liked
+  // find out the photo being liked
   photo_list_collection.find({'_id':photo_id}, {}, function(error, the_photo){
     if(error === null){
       var like_list = the_photo[0].likedby;
       var user_list_collection = db.get("userList");
 
-      // find out the login user
+      // find out the logged-in user
       user_list_collection.find({'_id':req.cookies.userID}, {}, function(error, the_user){
         if(error === null){
-          // add the login user to the like_list
+          // add the logged-in user's username to the like_list
           var user_name = the_user[0].username;
           like_list.push(user_name);
 

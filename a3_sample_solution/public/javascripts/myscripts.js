@@ -5,32 +5,32 @@ ialbum_app.controller('ialbumController', function($scope, $http){
   // loginErrorMsg is used to display both the header and the login error message
   $scope.loginErrorMsg = "iAlbum";
 
-  // a boolean flag indicating whether the user has log in
+  // a boolean flag indicating whether the user has logged in
   $scope.notLogin = true;
 
   // the string displayed in the button that is used to login/logout
   $scope.logButtonString = "log in";
 
-  // this variable stores the name and id of the login user
+  // this variable stores the name and id of the logged-in user
   $scope.currentUser = {'username':'', '_id':''};
 
-  // this variable stores the name and id of the user that is clicked in the left division
+  // this variable stores the name and id of the user whose name is clicked in the left division
   $scope.selectedUser = {'username':'', '_id':''};
 
-  // this list variable stores the friends of the login user. each element in
-  // this list has the same structure with currentUser variable
+  // this array variable stores the friends of the logged-in user
+  // each element in this array has the same structure with currentUser variable
   $scope.friends = [];
 
-  // this boolean flag controls whether the webpage show display enlarged photo
+  // this boolean flag controls whether the webpage displays enlarged photo
   $scope.showBigPhoto = false;
 
-  // This variable stores all the photos uploaded by a user
+  // This variable stores all the photos of a user
   $scope.userPhotos = [];
 
   // This variable stores basic information about the photo that is enlarged and dislayed
   $scope.photoBeingDisplayed = {'_id':'', 'url':'', 'friendListString':'', 'likedby':[]};
 
-  // This boolean flag indicates whether the login user is cliked in the left division
+  // This boolean flag indicates whether the logged-in user is cliked in the left division
   $scope.isCurrentUser = false;
 
   // this function is called when the web page is loaded
@@ -59,7 +59,7 @@ ialbum_app.controller('ialbumController', function($scope, $http){
           // the notLogin should be set to false
 	        $scope.notLogin = false;
 
-          // the string content in the login/logout button should be log out
+          // the string content in the login/logout button should be "log out"
 	        $scope.logButtonString = "log out";
 
           // save the name and id information of the login user to currentUser
@@ -96,12 +96,12 @@ ialbum_app.controller('ialbumController', function($scope, $http){
           }
           else{
 			      if(response.data.friend_list){
-              // login succeed
+              // login succeeded
 
               // change the notLogin flag to false
 	            $scope.notLogin = false;
 
-              // change the string content of the login/logout button to "log out"
+              // change the content of the login/logout button to "log out"
 	            $scope.logButtonString = "log out";
 
               // save the login user name and id to currentUser, the name
@@ -124,7 +124,7 @@ ialbum_app.controller('ialbumController', function($scope, $http){
     else{
       $http.get("/logout").then(function(response){
 	      if(response.data === ""){
-          // logout succeed, restore all the variables to
+          // logout succeeded, restore all the variables to
           // their default values
           $scope.loginErrorMsg = "iAlbum";
           $scope.notLogin = true;
@@ -162,7 +162,7 @@ ialbum_app.controller('ialbumController', function($scope, $http){
     // we should not display enlarged photo, set this flag to false
     $scope.showBigPhoto = false;
 
-    // save the clicked user information to selectedUser
+    // save the clicked user's information to selectedUser
     $scope.selectedUser = user;
 
     $http.get("/getalbum/"+user._id).then(function(response){
@@ -222,7 +222,7 @@ ialbum_app.controller('ialbumController', function($scope, $http){
 	          }
 	        }
 
-          // use the built-in splice function of JS list to
+          // use the built-in splice function of JS array to
           // delete the photo at position splice_index.
 	        $scope.userPhotos.splice(splice_index, 1);
 
